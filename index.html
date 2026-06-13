@@ -371,6 +371,8 @@
         let currentCategory = 'lanches';
         let audioPlayed = false;
         let isStoreOpen = false;
+        let SALES = JSON.parse(localStorage.getItem('cabral_sales') || '[]');
+        let COUPONS = JSON.parse(localStorage.getItem('cabral_coupons') || '[]');
 
         // ─── Áudio de Boas-Vindas ─────────────────────────────────────────────────
         let audioInitialized = false;
@@ -545,6 +547,9 @@
                 total += item.price * item.quantity;
             });
             msg += `\n*TOTAL: R$ ${total.toFixed(2)}*\n\nEndereço de entrega:`;
+            recordSale(CART, total);
+            CART = [];
+            updateCartUI();
             window.open(`https://wa.me/5521991238516?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
@@ -576,12 +581,26 @@
                         <button onclick="document.getElementById('admin-modal').remove()" class="bg-white text-red-600 px-4 py-2 rounded-xl font-bold text-xs">SAIR</button>
                     </div>
                 </div>
+                <div class="flex border-b bg-gray-50 dark:bg-gray-800 overflow-x-auto no-scrollbar">
+                    <button onclick="renderAdminTab('precos')" class="admin-tab-btn active px-6 py-3 font-bold text-sm border-b-2 border-red-600">Preços</button>
+                    <button onclick="renderAdminTab('vendas')" class="admin-tab-btn px-6 py-3 font-bold text-sm border-b-2 border-transparent">Vendas</button>
+                    <button onclick="renderAdminTab('cupons')" class="admin-tab-btn px-6 py-3 font-bold text-sm border-b-2 border-transparent">Cupons</button>
+                </div>
                 <div class="flex-1 overflow-y-auto p-6 space-y-6 no-scrollbar" id="admin-list">
                     <!-- JS Injection -->
                 </div>
             `;
             document.body.appendChild(modal);
-            renderAdminList();
+            renderAdminTab('precos');
+        }
+
+        function renderAdminTab(tab) {
+            document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active', 'border-red-600'));
+            document.querySelector(`[onclick="renderAdminTab('${tab}')"]`).classList.add('active', 'border-red-600');
+            const list = document.getElementById('admin-list');
+            if (tab === 'precos') renderAdminList();
+            else if (tab === 'vendas') renderSalesReport();
+            else if (tab === 'cupons') renderCouponsManager();
         }
 
         function renderAdminList() {
@@ -602,6 +621,62 @@
                 `;
                 list.appendChild(div);
             });
+        }
+
+        function recordSale(items, total) {
+            SALES.push({ date: new Date().toISOString(), items: items.map(i => ({ name: i.name, qty: i.quantity, price: i.price })), total });
+            localStorage.setItem('cabral_sales', JSON.stringify(SALES));
+        }
+
+        function renderSalesReport() {
+            const list = document.getElementById('admin-list');
+            list.innerHTML = '<h3 class="font-black text-lg mb-4">Relatório de Vendas</h3>';
+            if (SALES.length === 0) { list.innerHTML += '<p class="text-center text-muted py-8">Nenhuma venda registrada.</p>'; return; }
+            let totalSales = 0, totalItems = 0; const byProduct = {};
+            SALES.forEach(sale => { totalSales += sale.total; sale.items.forEach(item => { totalItems += item.qty; byProduct[item.name] = (byProduct[item.name] || 0) + item.qty; }); });
+            const div = document.createElement('div');
+            div.className = 'bg-green-50 dark:bg-green-900/20 p-6 rounded-2xl border-2 border-green-300';
+            div.innerHTML = `<div class="grid grid-cols-2 gap-4 mb-6"><div><p class="text-xs text-muted">Total de Vendas</p><p class="text-2xl font-black text-green-600">R$ ${totalSales.toFixed(2)}</p></div><div><p class="text-xs text-muted">Itens Vendidos</p><p class="text-2xl font-black text-green-600">${totalItems}</p></div></div><h4 class="font-bold mb-3 text-sm">Top Produtos:</h4><div class="space-y-2">${Object.entries(byProduct).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([name, qty]) => `<div class="flex justify-between text-sm"><span>${name}</span><span class="font-bold">${qty}x</span></div>`).join('')}</div>`;
+            list.appendChild(div);
+            const btn = document.createElement('button');
+            btn.className = 'w-full bg-red-500 text-white py-3 rounded-2xl font-bold mt-4';
+            btn.innerText = 'LIMPAR HISTÓRICO';
+            btn.onclick = () => { if (confirm('Tem certeza?')) { SALES = []; localStorage.removeItem('cabral_sales'); renderSalesReport(); } };
+            list.appendChild(btn);
+        }
+
+        function renderCouponsManager() {
+            const list = document.getElementById('admin-list');
+            list.innerHTML = '<h3 class="font-black text-lg mb-4">Gerenciar Cupons</h3>';
+            const form = document.createElement('div');
+            form.className = 'bg-blue-50 dark:bg-blue-900/20 p-6 rounded-2xl border-2 border-blue-300 space-y-4 mb-6';
+            form.innerHTML = `<input type="text" id="coupon-code" placeholder="Código (ex: PROMO10)" class="w-full bg-white dark:bg-gray-800 border border-gray-300 p-3 rounded-xl font-bold text-sm"><input type="number" id="coupon-discount" placeholder="Desconto (%)" min="1" max="100" class="w-full bg-white dark:bg-gray-800 border border-gray-300 p-3 rounded-xl font-bold text-sm"><input type="date" id="coupon-expiry" class="w-full bg-white dark:bg-gray-800 border border-gray-300 p-3 rounded-xl font-bold text-sm"><button onclick="addCoupon()" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold">CRIAR CUPOM</button>`;
+            list.appendChild(form);
+            if (COUPONS.length === 0) { list.innerHTML += '<p class="text-center text-muted py-8">Nenhum cupom criado.</p>'; return; }
+            COUPONS.forEach((c, idx) => {
+                const div = document.createElement('div');
+                div.className = 'bg-gray-50 dark:bg-gray-800 p-4 rounded-2xl border border-gray-100 flex justify-between items-center';
+                const isExpired = new Date(c.expiry) < new Date();
+                div.innerHTML = `<div><p class="font-black text-sm">${c.code}</p><p class="text-xs text-muted">${c.discount}% OFF • Válido até ${new Date(c.expiry).toLocaleDateString('pt-BR')}</p>${isExpired ? '<p class="text-[10px] text-red-600 font-bold">EXPIRADO</p>' : ''}</div><button onclick="removeCoupon(${idx})" class="text-red-600 font-bold"><i class="fas fa-trash"></i></button>`;
+                list.appendChild(div);
+            });
+        }
+
+        function addCoupon() {
+            const code = document.getElementById('coupon-code').value.toUpperCase();
+            const discount = parseFloat(document.getElementById('coupon-discount').value);
+            const expiry = document.getElementById('coupon-expiry').value;
+            if (!code || !discount || !expiry) return alert('Preencha todos os campos!');
+            if (COUPONS.some(c => c.code === code)) return alert('Cupom já existe!');
+            COUPONS.push({ code, discount, expiry });
+            localStorage.setItem('cabral_coupons', JSON.stringify(COUPONS));
+            renderCouponsManager();
+        }
+
+        function removeCoupon(idx) {
+            COUPONS.splice(idx, 1);
+            localStorage.setItem('cabral_coupons', JSON.stringify(COUPONS));
+            renderCouponsManager();
         }
 
         function toggleExtraOpen() {
