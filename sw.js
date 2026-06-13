@@ -1,26 +1,82 @@
-// Service Worker com Forçador de Atualização (Kill Switch)
-const CACHE_NAME = 'cabral-izaura-v' + Date.now(); // Cache único por versão
+const CACHE_VERSION = 'v7-clean-rebuild';
+const CACHE_URLS = [
+  './',
+  './index.html',
+  './products.json',
+  './manifest.json',
+  'https://cdn.tailwindcss.com',
+  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
+  'https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Poppins:wght@300;400;600;700&display=swap'
+];
 
-self.addEventListener('install', (e) => {
-    self.skipWaiting(); // Força o novo SW a assumir o controle imediatamente
+// Install: Cache essentials
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_VERSION).then((cache) => {
+      return cache.addAll(CACHE_URLS).catch(() => {
+        return Promise.resolve();
+      });
+    }).then(() => self.skipWaiting())
+  );
 });
 
-self.addEventListener('activate', (e) => {
-    e.waitUntil(
-        caches.keys().then((keys) => {
-            return Promise.all(
-                keys.map((key) => {
-                    return caches.delete(key); // Limpa todos os caches antigos
-                })
-            );
-        }).then(() => self.clients.claim()) // Assume o controle das páginas abertas
-    );
+// Activate: Limpar caches antigos
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_VERSION) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    }).then(() => self.clients.claim())
+  );
 });
 
-self.addEventListener('fetch', (e) => {
-    // Estratégia: Network First (Rede primeiro, depois cache)
-    // Isso garante que se houver internet, ele sempre pegue o arquivo novo.
-    e.respondWith(
-        fetch(e.request).catch(() => caches.match(e.request))
+// Fetch: Network-first para dados, cache-first para assets
+self.addEventListener('fetch', (event) => {
+  const { request } = event;
+  const url = new URL(request.url);
+
+  // Não interceptar navegações (evita piscadas)
+  if (request.mode === 'navigate') {
+    return;
+  }
+
+  // JSON e dados: Network-first
+  if (url.pathname.endsWith('.json')) {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response.ok) {
+            const cache = caches.open(CACHE_VERSION);
+            cache.then((c) => c.put(request, response.clone()));
+          }
+          return response;
+        })
+        .catch(() => caches.match(request))
     );
+    return;
+  }
+
+  // Assets (imagens, CSS, JS): Cache-first
+  event.respondWith(
+    caches.match(request)
+      .then((response) => {
+        if (response) return response;
+        return fetch(request).then((response) => {
+          if (!response || response.status !== 200 || response.type === 'error') {
+            return response;
+          }
+          const responseClone = response.clone();
+          caches.open(CACHE_VERSION).then((cache) => {
+            cache.put(request, responseClone);
+          });
+          return response;
+        });
+      })
+      .catch(() => new Response('Offline', { status: 503 }))
+  );
 });

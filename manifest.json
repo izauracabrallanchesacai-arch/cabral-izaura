@@ -4,8 +4,10 @@
   "description": "O melhor lanche e açaí da região desde 1998.",
   "start_url": "./index.html",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#ffffff",
   "theme_color": "#da291c",
+  "scope": "./",
   "icons": [
     {
       "src": "images/logo.png",
@@ -17,6 +19,15 @@
       "src": "images/logo.png",
       "sizes": "512x512",
       "type": "image/png"
+    }
+  ],
+  "categories": ["food", "shopping"],
+  "screenshots": [
+    {
+      "src": "images/banner.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
     }
   ]
 }
