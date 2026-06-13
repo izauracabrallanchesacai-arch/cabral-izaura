@@ -521,15 +521,15 @@
                     "img": "images/produtos/palha-italiana-beijinho.jpg",
                     "type": "simple"
           },
-          {
-                    "id": 26,
-                    "cat": "palhas",
-                    "name": "Palha Oreo",
-                    "price": 10,
-                    "desc": "Com pedaços reais de Oreo",
-                    "img": "images/produtos/palha-italiana-oreo.jpg",
-                    "type": "simple"
-          },
+	          {
+	                    "id": 26,
+	                    "cat": "palhas",
+	                    "name": "Palha Italiana de Oreo",
+	                    "price": 10,
+	                    "desc": "Com pedaços reais de Oreo",
+	                    "img": "images/produtos/palha-italiana-oreo.jpg",
+	                    "type": "simple"
+	          },
           {
                     "id": 27,
                     "cat": "bebidas",
@@ -842,7 +842,22 @@
             console.log('PWA instalado com sucesso');
         });
 
-	        init();
-	    </script>
+		        init();
+
+                if ('serviceWorker' in navigator) {
+                    window.addEventListener('load', () => {
+                        navigator.serviceWorker.register('sw.js?v=' + Date.now()).then(reg => {
+                            reg.onupdatefound = () => {
+                                const installingWorker = reg.installing;
+                                installingWorker.onstatechange = () => {
+                                    if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                        window.location.reload(); 
+                                    }
+                                };
+                            };
+                        });
+                    });
+                }
+		    </script>
 </body>
 </html>
