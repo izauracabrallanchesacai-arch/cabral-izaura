@@ -205,30 +205,39 @@
                     <i class="fas fa-map-marker-alt text-red-600 mr-2"></i>
                     Rua Orquídea, 38 — Pavuna, Rio de Janeiro, RJ — CEP 21535-620
                 </p>
-	                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <img src="images/loja-1.jpg" alt="Foto da Loja 1" class="w-full h-64 object-cover rounded-2xl shadow-lg border border-gray-800">
-                        <img src="images/loja-2.jpg" alt="Foto da Loja 2" class="w-full h-64 object-cover rounded-2xl shadow-lg border border-gray-800">
-                    </div>
+		                <div class="grid grid-cols-2 gap-3">
+	                        <img src="images/loja-1.jpg" alt="Foto da Loja 1" class="w-full h-40 object-cover rounded-xl shadow-lg border border-gray-800">
+	                        <img src="images/loja-2.jpg" alt="Foto da Loja 2" class="w-full h-40 object-cover rounded-xl shadow-lg border border-gray-800">
+	                    </div>
+	                </div>
+	
+	            <div>
+	                <h3 class="text-2xl font-black mb-6">Onde Estamos</h3>
+	                <p class="text-gray-400 text-sm mb-4">
+	                    <i class="fas fa-map-marker-alt text-red-600 mr-2"></i>
+	                    Rua Orquídea, 38 — Pavuna, Rio de Janeiro, RJ — CEP 21535-620
+	                </p>
+	                <img src="images/sobre-nos.png" alt="Localização Exata" class="w-full rounded-2xl shadow-lg border border-gray-800">
 	            </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                    <h3 class="text-xl font-black mb-4">Funcionamento</h3>
-                    <ul class="text-sm text-gray-400 space-y-2">
-                        <li class="flex justify-between"><span>Segunda a Quinta:</span> <span class="text-white">18:30 - 22:30</span></li>
-                        <li class="flex justify-between"><span>Sexta e Sábado:</span> <span class="text-white">18:00 - 00:30</span></li>
-                        <li class="flex justify-between"><span>Domingo:</span> <span class="text-white">18:00 - 00:00</span></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-xl font-black mb-4">Contato</h3>
-                    <p class="text-gray-400 text-sm">
-                        <i class="fab fa-whatsapp text-green-500 mr-2"></i>
-                        (21) 99123-8516
-                    </p>
-                    <p class="text-gray-500 text-xs mt-4 italic">"Fiel é Deus — 1° Coríntios 1:9"</p>
-                </div>
-            </div>
+	            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+	                <div>
+	                    <h3 class="text-xl font-black mb-4">Funcionamento</h3>
+	                    <ul class="text-sm text-gray-400 space-y-2">
+	                        <li class="flex justify-between"><span>Segunda a Quinta:</span> <span class="text-white">18:30 - 22:30</span></li>
+	                        <li class="flex justify-between"><span>Sexta e Sábado:</span> <span class="text-white">18:00 - 00:30</span></li>
+	                        <li class="flex justify-between"><span>Domingo:</span> <span class="text-white">18:00 - 00:00</span></li>
+	                    </ul>
+	                </div>
+	                <div>
+	                    <h3 class="text-xl font-black mb-4">Contato</h3>
+	                    <p class="text-gray-400 text-sm">
+	                        <i class="fab fa-whatsapp text-green-500 mr-2"></i>
+	                        (21) 99123-8516
+	                    </p>
+	                    <p class="text-gray-500 text-xs mt-4 italic">"Fiel é Deus — 1° Coríntios 1:9"</p>
+	                </div>
+	            </div>
 
             <div class="pt-8 border-t border-gray-800 text-center">
                 <button onclick="openLogin()" class="text-gray-600 hover:text-gray-400 transition text-sm">
@@ -261,15 +270,16 @@
     </div>
 
     <!-- Audio Player -->
-    <audio id="welcome-audio" src="audio-boas-vindas.mp3" preload="auto"></audio>
+    <audio id="welcome-audio" src="https://media1.vocaroo.com/mp3/1ar5AnKo0qus" preload="auto"></audio>
 
     <script>
         const REPO_OWNER = 'izauracabrallanchesacai-arch';
         const REPO_NAME = 'cabral-izaura';
-        const ADMIN_PASS = 'Apc@#$1996';
-        let GITHUB_TOKEN = localStorage.getItem('gh_token') || '';
-
-        const OPENING_HOURS = {
+	        const ADMIN_PASS = 'Apc@#$1996';
+	        let GITHUB_TOKEN = localStorage.getItem('gh_token') || '';
+	        let EXTRA_OPEN = localStorage.getItem('extra_open') === 'true';
+	
+	        const OPENING_HOURS = {
             1: { open: "18:30", close: "22:30" }, // Seg
             2: { open: "18:30", close: "22:30" }, // Ter
             3: { open: "18:30", close: "22:30" }, // Qua
@@ -421,17 +431,17 @@
                     "freeLimit": 3,
                     "coverLimit": 1
           },
-          {
-                    "id": 16,
-                    "cat": "acai",
-                    "name": "Açaí 300ml",
-                    "price": 9,
-                    "desc": "Açaí cremoso premium",
-                    "img": "images/produtos/acai-300ml.jpg",
-                    "type": "acai",
-                    "freeLimit": 3,
-                    "coverLimit": 1
-          },
+	          {
+	                    "id": 16,
+	                    "cat": "acai",
+	                    "name": "Açaí 300ml",
+	                    "price": 10,
+	                    "desc": "Açaí cremoso premium",
+	                    "img": "images/produtos/acai-300ml.jpg",
+	                    "type": "acai",
+	                    "freeLimit": 3,
+	                    "coverLimit": 1
+	          },
           {
                     "id": 17,
                     "cat": "acai",
@@ -627,18 +637,20 @@
             const mins = now.getMinutes();
             const currentTime = `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
             
-            const schedule = OPENING_HOURS[day];
-            const statusDiv = document.getElementById('store-status');
-            
-            // Lógica de fechamento após meia-noite
-            let isOpen = false;
-            if (schedule.close < schedule.open) { // Caso de fechar após meia-noite
-                if (currentTime >= schedule.open || currentTime < schedule.close) isOpen = true;
-            } else {
-                if (currentTime >= schedule.open && currentTime < schedule.close) isOpen = true;
-            }
-
-            if (isOpen) {
+	            const schedule = OPENING_HOURS[day];
+	            const statusDiv = document.getElementById('store-status');
+	            
+	            // Lógica de fechamento após meia-noite
+	            let isOpen = EXTRA_OPEN;
+	            if (!isOpen) {
+	                if (schedule.close < schedule.open) { // Caso de fechar após meia-noite
+	                    if (currentTime >= schedule.open || currentTime < schedule.close) isOpen = true;
+	                } else {
+	                    if (currentTime >= schedule.open && currentTime < schedule.close) isOpen = true;
+	                }
+	            }
+	
+	            if (isOpen) {
                 // Calcular tempo para fechar
                 const [closeH, closeM] = schedule.close.split(':').map(Number);
                 let closeDate = new Date(now);
@@ -702,13 +714,21 @@
             renderProducts();
         }
 
+	        // Áudio toca sempre ao entrar (com interação)
 	        document.body.addEventListener('click', () => {
 	            if (!audioPlayed) {
 	                const audio = document.getElementById('welcome-audio');
-	                audio.volume = 0.3; // Volume reduzido conforme solicitado
+	                audio.volume = 0.3;
 	                audio.play().then(() => audioPlayed = true).catch(e => console.log(e));
 	            }
 	        }, { once: true });
+	        
+	        // Fallback para tentar tocar sem clique se o navegador permitir
+	        window.addEventListener('load', () => {
+	            const audio = document.getElementById('welcome-audio');
+	            audio.volume = 0.3;
+	            audio.play().then(() => audioPlayed = true).catch(() => {});
+	        });
 
         function openLogin() {
             const pass = prompt("Senha Administrativa:");
@@ -725,14 +745,15 @@
             const modal = document.createElement('div');
             modal.id = 'admin-modal';
             modal.className = 'fixed inset-0 bg-white z-[2000] flex flex-col';
-            modal.innerHTML = `
-                <div class="bg-red-600 text-white p-6 flex justify-between items-center shadow-lg">
-                    <h2 class="font-black text-xl">Painel Admin</h2>
-                    <div class="flex gap-2">
-                        <button onclick="saveAllToGitHub()" class="bg-green-500 px-4 py-2 rounded-xl font-bold text-sm">Salvar Site</button>
-                        <button onclick="document.getElementById('admin-modal').remove()" class="bg-white text-red-600 px-4 py-2 rounded-xl font-bold text-sm">Sair</button>
-                    </div>
-                </div>
+	            modal.innerHTML = `
+	                <div class="bg-red-600 text-white p-6 flex justify-between items-center shadow-lg">
+	                    <h2 class="font-black text-xl">Painel Admin</h2>
+	                    <div class="flex gap-2">
+	                        <button id="btn-extra-open" onclick="toggleExtraOpen()" class="${EXTRA_OPEN ? 'bg-yellow-400 text-black' : 'bg-white/20 text-white'} px-4 py-2 rounded-xl font-bold text-sm">${EXTRA_OPEN ? 'LOJA ABERTA (Manual)' : 'ABRIR LOJA AGORA'}</button>
+	                        <button onclick="saveAllToGitHub()" class="bg-green-500 px-4 py-2 rounded-xl font-bold text-sm">Salvar Site</button>
+	                        <button onclick="document.getElementById('admin-modal').remove()" class="bg-white text-red-600 px-4 py-2 rounded-xl font-bold text-sm">Sair</button>
+	                    </div>
+	                </div>
                 <div class="flex border-b bg-gray-50 overflow-x-auto no-scrollbar">
                     <button onclick="renderAdminTab('lanches')" class="admin-tab-btn active" id="tab-lanches">Sanduíches</button>
                     <button onclick="renderAdminTab('acai')" class="admin-tab-btn" id="tab-acai">Açaí</button>
@@ -787,9 +808,18 @@
                     location.reload(); 
                 }
                 else alert("Erro ao salvar.");
-            } catch (e) { alert("Falha na conexão."); }
-            document.getElementById('admin-loading').classList.add('hidden');
-        }
+	            } catch (e) { alert("Falha na conexão."); }
+	            document.getElementById('admin-loading').classList.add('hidden');
+	        }
+	        
+	        function toggleExtraOpen() {
+	            EXTRA_OPEN = !EXTRA_OPEN;
+	            localStorage.setItem('extra_open', EXTRA_OPEN);
+	            const btn = document.getElementById('btn-extra-open');
+	            btn.className = EXTRA_OPEN ? 'bg-yellow-400 text-black px-4 py-2 rounded-xl font-bold text-sm' : 'bg-white/20 text-white px-4 py-2 rounded-xl font-bold text-sm';
+	            btn.innerText = EXTRA_OPEN ? 'LOJA ABERTA (Manual)' : 'ABRIR LOJA AGORA';
+	            updateStatus();
+	        }
 
         async function uploadImage(input, idx) {
             const file = input.files[0]; if (!file || !GITHUB_TOKEN) return;
@@ -844,13 +874,20 @@
 
 		        init();
 
-	                if ('serviceWorker' in navigator) {
-	                    navigator.serviceWorker.getRegistrations().then(function(registrations) {
-	                        for(let registration of registrations) {
-	                            registration.unregister();
-	                        }
-	                    });
-	                }
+		                if ('serviceWorker' in navigator) {
+		                    window.addEventListener('load', () => {
+		                        navigator.serviceWorker.register('sw.js?v=' + Date.now()).then(reg => {
+		                            reg.onupdatefound = () => {
+		                                const installingWorker = reg.installing;
+		                                installingWorker.onstatechange = () => {
+		                                    if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+		                                        window.location.reload(); 
+		                                    }
+		                                };
+		                            };
+		                        });
+		                    });
+		                }
 		    </script>
 </body>
 </html>

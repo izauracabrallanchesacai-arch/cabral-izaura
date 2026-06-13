@@ -1,26 +1,41 @@
-// Service Worker com Forçador de Atualização (Kill Switch)
-const CACHE_NAME = 'cabral-izaura-v' + Date.now(); // Cache único por versão
+// Service Worker Cabral & Izaura - V2 (Performance & Splash Support)
+const CACHE_NAME = 'cabral-izaura-v2';
+const ASSETS = [
+    './',
+    './index.html',
+    './splash.html',
+    './manifest.json',
+    './splash_sound_fixed.mp3',
+    './images/logo.png',
+    './images/banner.png',
+    './images/sobre-nos.png'
+];
 
 self.addEventListener('install', (e) => {
-    self.skipWaiting(); // Força o novo SW a assumir o controle imediatamente
+    self.skipWaiting();
+    e.waitUntil(
+        caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
+    );
 });
 
 self.addEventListener('activate', (e) => {
     e.waitUntil(
-        caches.keys().then((keys) => {
-            return Promise.all(
-                keys.map((key) => {
-                    return caches.delete(key); // Limpa todos os caches antigos
-                })
-            );
-        }).then(() => self.clients.claim()) // Assume o controle das páginas abertas
+        caches.keys().then(keys => Promise.all(
+            keys.map(key => { if (key !== CACHE_NAME) return caches.delete(key); })
+        ))
     );
 });
 
 self.addEventListener('fetch', (e) => {
-    // Estratégia: Network First (Rede primeiro, depois cache)
-    // Isso garante que se houver internet, ele sempre pegue o arquivo novo.
-    e.respondWith(
-        fetch(e.request).catch(() => caches.match(e.request))
-    );
+    // Network First para JSON e HTML para garantir preços novos
+    if (e.request.url.includes('.json') || e.request.url.includes('.html')) {
+        e.respondWith(
+            fetch(e.request).catch(() => caches.match(e.request))
+        );
+    } else {
+        // Cache First para imagens e sons
+        e.respondWith(
+            caches.match(e.request).then(res => res || fetch(e.request))
+        );
+    }
 });

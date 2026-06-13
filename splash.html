@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Splash Screen - Cabral & Izaura</title>
+    <style>
+        :root {
+            --bg-color: #E6E0F8;
+            --draw-speed: 1.0s;
+            --stamp-speed: 0.5s;
+            --color-flash: 0.5s;
+            --total-duration: 2.5s;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--bg-color);
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .splash-container {
+            width: 90vw;
+            max-width: 500px;
+            position: relative;
+        }
+
+        svg {
+            width: 100%;
+            height: auto;
+        }
+
+        .draw-line {
+            fill: none;
+            stroke: black;
+            stroke-width: 2;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw var(--draw-speed) ease-out forwards;
+        }
+
+        .outer-circle { stroke-width: 4; }
+        .inner-circle { stroke-width: 2; }
+
+        @keyframes draw {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .stamp-text {
+            opacity: 0;
+            transform: scale(1.2);
+            animation: stamp var(--stamp-speed) cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes stamp {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .icon-outline {
+            opacity: 0;
+            animation: fadeIn 0.3s ease-out forwards;
+            animation-delay: 1.2s;
+        }
+
+        .icon-color {
+            opacity: 0;
+            animation: colorFlash var(--color-flash) ease-in forwards;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes colorFlash {
+            0% { opacity: 0; filter: brightness(2); }
+            100% { opacity: 1; filter: brightness(1); }
+        }
+
+        text {
+            font-weight: bold;
+            fill: black;
+            text-anchor: middle;
+            font-family: 'Arial Black', sans-serif;
+        }
+
+        .fiel-deus { font-size: 14px; font-weight: normal; }
+        .cabral-izaura { font-size: 38px; }
+        .lanches-acai { font-size: 34px; }
+        .desde-1998 { font-size: 16px; }
+
+        #preview-info {
+            position: absolute;
+            bottom: 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="splash-container">
+        <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="250" cy="250" r="230" class="draw-line outer-circle" />
+            <circle cx="250" cy="250" r="170" class="draw-line inner-circle" />
+            
+            <line x1="20" x2="80" y1="250" y2="250" class="draw-line" style="animation-delay: 0.2s;" />
+            <line x1="420" x2="480" y1="250" y2="250" class="draw-line" style="animation-delay: 0.2s;" />
+
+            <defs>
+                <path id="topArc" d="M 100,250 A 150,150 0 0,1 400,250" />
+                <path id="bottomArc" d="M 100,250 A 150,150 0 0,0 400,250" />
+                <path id="desdeArc" d="M 180,250 A 70,70 0 0,1 320,250" />
+            </defs>
+
+            <text class="fiel-deus stamp-text" style="animation-delay: 0.6s;">
+                <textPath href="#topArc" startOffset="50%" side="right" style="baseline-shift: 40px;">Fiel é Deus</textPath>
+            </text>
+
+            <text class="cabral-izaura stamp-text" style="animation-delay: 0.8s;">
+                <textPath href="#topArc" startOffset="50%">CABRAL & IZAURA</textPath>
+            </text>
+
+            <text class="desde-1998 stamp-text" style="animation-delay: 0.9s;">
+                <textPath href="#desdeArc" startOffset="50%">DESDE 1998</textPath>
+            </text>
+
+            <text class="lanches-acai stamp-text" style="animation-delay: 1.0s;">
+                <textPath href="#bottomArc" startOffset="50%" side="right" style="baseline-shift: -20px;">LANCHES & AÇAÍ</textPath>
+            </text>
+
+            <g transform="translate(170, 280) scale(0.6)">
+                <g class="icon-outline">
+                    <path d="M50,150 Q80,180 110,150 Q140,120 110,90 Q80,60 50,90 Q20,120 50,150" fill="none" stroke="black" stroke-width="4"/>
+                    <path d="M100,160 Q130,190 160,160 Q190,130 160,100 Q130,70 100,100 Q70,130 100,160" fill="none" stroke="black" stroke-width="4"/>
+                    <path d="M100,100 Q100,20 130,40 Q110,80 100,100" fill="none" stroke="black" stroke-width="4"/>
+                    <path d="M100,100 Q70,20 40,40 Q60,80 100,100" fill="none" stroke="black" stroke-width="4"/>
+                </g>
+                <g class="icon-color">
+                    <circle cx="80" cy="180" r="40" fill="#4B0082" />
+                    <circle cx="140" cy="180" r="40" fill="#4B0082" />
+                    <path d="M110,140 Q110,20 150,40 Q130,100 110,140" fill="#228B22" />
+                    <path d="M110,140 Q80,20 40,40 Q70,100 110,140" fill="#228B22" />
+                </g>
+            </g>
+
+            <g transform="translate(260, 280) scale(0.6)">
+                <g class="icon-outline">
+                    <rect x="20" y="100" width="160" height="20" rx="10" fill="none" stroke="black" stroke-width="4" />
+                    <path d="M20,100 Q20,40 100,40 Q180,40 180,100 Z" fill="none" stroke="black" stroke-width="4" />
+                    <rect x="20" y="120" width="160" height="40" rx="5" fill="none" stroke="black" stroke-width="4" />
+                </g>
+                <g class="icon-color">
+                    <path d="M20,100 Q20,40 100,40 Q180,40 180,100 Z" fill="#F4A460" />
+                    <rect x="20" y="100" width="160" height="10" fill="#32CD32" />
+                    <rect x="20" y="110" width="160" height="10" fill="#FF4500" />
+                    <rect x="20" y="120" width="160" height="5" fill="#FFD700" />
+                    <rect x="20" y="125" width="160" height="20" fill="#8B4513" />
+                    <rect x="20" y="145" width="160" height="15" rx="5" fill="#F4A460" />
+                </g>
+            </g>
+        </svg>
+    </div>
+
+    <div id="preview-info">Carregando...</div>
+
+    <audio id="splash-sound" src="splash_sound_fixed.mp3"></audio>
+
+    <script>
+        const audio = document.getElementById('splash-sound');
+        const info = document.getElementById('preview-info');
+
+        function startApp() {
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2800);
+        }
+
+        window.addEventListener('load', () => {
+            audio.play().then(() => {
+                info.style.opacity = '0';
+            }).catch(() => {
+                info.innerHTML = "Toque para entrar";
+                info.style.opacity = '1';
+            });
+            startApp();
+        });
+
+        document.body.addEventListener('click', () => {
+            audio.play();
+            info.style.opacity = '0';
+        });
+    </script>
+</body>
+</html>
