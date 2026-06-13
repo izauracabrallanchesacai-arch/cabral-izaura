@@ -299,7 +299,7 @@
     </div>
 
     <!-- Audio Player -->
-    <audio id="welcome-audio" src="audio-boas-vindas.mp3" preload="auto"></audio>
+    <audio id="welcome-audio" preload="auto"></audio>
 
     <script>
         const REPO_OWNER = 'izauracabrallanchesacai-arch';
@@ -326,12 +326,35 @@
 
         // ─── Áudio de Boas-Vindas ─────────────────────────────────────────────────
         // Toca no primeiro clique/toque do usuário, independente do status da loja
-        document.body.addEventListener('click', function playWelcome() {
+        let audioInitialized = false;
+        function initAudio() {
+            if (audioInitialized) return;
+            audioInitialized = true;
+            const audio = document.getElementById('welcome-audio');
+            audio.src = 'audio-boas-vindas.mp3?v=' + Date.now(); // Cache-busting
+            audio.volume = 0.5; // Volume aumentado para garantir audição
+            audio.load();
+        }
+        document.addEventListener('click', function playWelcome() {
             if (!audioPlayed) {
+                initAudio();
                 const audio = document.getElementById('welcome-audio');
-                audio.volume = 0.3;
-                audio.play().then(() => { audioPlayed = true; }).catch(e => console.log('Audio:', e));
-                document.body.removeEventListener('click', playWelcome);
+                audio.play()
+                    .then(() => { audioPlayed = true; console.log('Áudio tocando...'); })
+                    .catch(e => {
+                        console.log('Erro ao tocar áudio:', e);
+                        // Tenta novamente com um pequeno delay
+                        setTimeout(() => {
+                            audio.play().catch(err => console.log('Falha na segunda tentativa:', err));
+                        }, 500);
+                    });
+                document.removeEventListener('click', playWelcome);
+            }
+        }, { once: false });
+        // Tenta tocar no carregamento da página também
+        window.addEventListener('load', () => {
+            if (!audioPlayed) {
+                initAudio();
             }
         });
 
@@ -339,7 +362,10 @@
         async function init() {
             try {
                 // Carrega do servidor com bypass de cache para garantir dados atualizados
-                const res = await fetch('products.json?nocache=' + Date.now());
+                const res = await fetch('products.json?nocache=' + Date.now(), {
+                    cache: 'no-store',
+                    headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate' }
+                });
                 const serverMenu = await res.json();
                 MENU = serverMenu;
                 // Atualiza localStorage com dados frescos do servidor

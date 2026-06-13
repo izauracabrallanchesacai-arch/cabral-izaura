@@ -1,35 +1,315 @@
 [
-  { "id": 1, "cat": "lanches", "name": "Hambúrguer", "price": 9.00, "desc": "Pão com gergelim, carne bovina", "img": "images/produtos/hamburguer-simples.jpg", "type": "sandwich" },
-  { "id": 2, "cat": "lanches", "name": "Hambúrguer com Ovo", "price": 12.00, "desc": "Pão com gergelim, carne bovina, ovo frito", "img": "images/produtos/hamburguer-com-ovo.jpg", "type": "sandwich" },
-  { "id": 3, "cat": "lanches", "name": "X-Burguer", "price": 12.00, "desc": "Pão com gergelim, carne, queijo, presunto", "img": "images/produtos/x-burguer.jpg", "type": "sandwich" },
-  { "id": 4, "cat": "lanches", "name": "X-Eggburguer", "price": 15.00, "desc": "Pão com gergelim, carne, queijo, presunto, ovo", "img": "images/produtos/x-egg-burguer.jpg", "type": "sandwich" },
-  { "id": 5, "cat": "lanches", "name": "X-Calabresa", "price": 15.00, "desc": "Pão com gergelim, carne, queijo, presunto, calabresa acebolada", "img": "images/produtos/x-calabresa.jpg", "type": "sandwich" },
-  { "id": 6, "cat": "lanches", "name": "X-Bacon", "price": 15.00, "desc": "Pão com gergelim, carne, queijo, presunto, bacon crocante", "img": "images/produtos/x-bacon.jpg", "type": "sandwich" },
-  { "id": 7, "cat": "lanches", "name": "X-Tudo", "price": 16.00, "desc": "Pão, carne, queijo, presunto, ovo, bacon, calabresa", "img": "images/produtos/x-tudo.jpg", "type": "sandwich" },
-  { "id": 8, "cat": "lanches", "name": "X-Burguer Duplo", "price": 18.00, "desc": "Pão, 2 carnes, 2 queijos, 2 presuntos", "img": "images/produtos/x-burguer.jpg", "type": "sandwich" },
-  { "id": 9, "cat": "lanches", "name": "X-Eggburguer Duplo", "price": 22.00, "desc": "Pão, 2 carnes, 2 queijos, 2 presuntos, 2 ovos", "img": "images/produtos/x-egg-duplo.jpg", "type": "sandwich" },
-  { "id": 10, "cat": "lanches", "name": "X-Calabresa Duplo", "price": 22.00, "desc": "Pão, 2 carnes, 2 queijos, 2 presuntos, calabresa dupla", "img": "images/produtos/x-calabresa-duplo.jpg", "type": "sandwich" },
-  { "id": 11, "cat": "lanches", "name": "X-Bacon Duplo", "price": 22.00, "desc": "Pão, 2 carnes, 2 queijos, 2 presuntos, bacon duplo", "img": "images/produtos/x-bacon-duplo.jpg", "type": "sandwich" },
-  { "id": 12, "cat": "lanches", "name": "X-Tudo Duplo", "price": 25.00, "desc": "Pão, 2 carnes, 2 queijos, 2 presuntos, 2 ovos, 2 bacon, calabresa", "img": "images/produtos/x-tudo-duplo.jpg", "type": "sandwich" },
-  { "id": 13, "cat": "acai", "name": "Açaí 150ml", "price": 5.00, "desc": "Açaí cremoso premium", "img": "images/produtos/acai-150ml.jpg", "type": "acai", "freeLimit": 3, "coverLimit": 1 },
-  { "id": 14, "cat": "acai", "name": "Açaí 200ml", "price": 6.00, "desc": "Açaí cremoso premium", "img": "images/produtos/acai-200ml.jpg", "type": "acai", "freeLimit": 3, "coverLimit": 1 },
-  { "id": 15, "cat": "acai", "name": "Açaí 250ml", "price": 8.00, "desc": "Açaí cremoso premium", "img": "images/produtos/acai-250ml.jpg", "type": "acai", "freeLimit": 3, "coverLimit": 1 },
-  { "id": 16, "cat": "acai", "name": "Açaí 300ml", "price": 9.00, "desc": "Açaí cremoso premium", "img": "images/produtos/acai-300ml.jpg", "type": "acai", "freeLimit": 3, "coverLimit": 1 },
-  { "id": 17, "cat": "acai", "name": "Açaí 400ml", "price": 12.00, "desc": "Açaí cremoso premium", "img": "images/produtos/acai-400ml.jpg", "type": "acai", "freeLimit": 3, "coverLimit": 1 },
-  { "id": 18, "cat": "acai", "name": "Açaí 500ml", "price": 15.00, "desc": "Açaí cremoso premium", "img": "images/produtos/acai-500ml.jpg", "type": "acai", "freeLimit": 3, "coverLimit": 1 },
-  { "id": 19, "cat": "acai", "name": "Açaí 770ml", "price": 18.00, "desc": "Açaí cremoso premium gigante", "img": "images/produtos/acai-770ml.jpg", "type": "acai", "freeLimit": 4, "coverLimit": 2 },
-  { "id": 20, "cat": "acai", "name": "Açaí 1 Litro", "price": 28.00, "desc": "Açaí cremoso premium família", "img": "images/produtos/acai-1litro.jpg", "type": "acai", "freeLimit": 4, "coverLimit": 2 },
-  { "id": 21, "cat": "porcoes", "name": "Batata Frita Caixinha", "price": 10.00, "desc": "Crocante, sequinha e salgadinha", "img": "images/produtos/batata-frita-tradicional.jpg", "type": "simple" },
-  { "id": 22, "cat": "porcoes", "name": "Hot Dog de Salsicha", "price": 12.00, "desc": "Pão macio, salsicha, molho e batata palha", "img": "images/produtos/hot-dog-salsicha.jpg", "type": "simple" },
-  { "id": 23, "cat": "porcoes", "name": "Hot Dog de Linguiça", "price": 15.00, "desc": "Pão macio, linguiça artesanal e molho especial", "img": "images/produtos/hot-dog-linguica.jpg", "type": "simple" },
-  { "id": 24, "cat": "palhas", "name": "Palha Italiana de Açaí", "price": 8.00, "desc": "Gourmet e artesanal", "img": "images/produtos/palha-italiana-acai.jpg", "type": "simple" },
-  { "id": 25, "cat": "palhas", "name": "Palha Italiana Beijinho", "price": 8.00, "desc": "Delicioso sabor de coco", "img": "images/produtos/palha-italiana-beijinho.jpg", "type": "simple" },
-  { "id": 26, "cat": "palhas", "name": "Palha Italiana de Oreo", "price": 10.00, "desc": "Com pedaços reais de Oreo", "img": "images/produtos/palha-italiana-oreo.jpg", "type": "simple" },
-  { "id": 27, "cat": "bebidas", "name": "Guaravita Copo", "price": 2.00, "desc": "290ml gelado", "img": "images/produtos/guaravita.jpg", "type": "simple" },
-  { "id": 28, "cat": "bebidas", "name": "Coca-Cola Lata", "price": 6.00, "desc": "350ml gelada", "img": "images/produtos/coca-cola-lata.jpg", "type": "simple" },
-  { "id": 29, "cat": "bebidas", "name": "Guaraná Antarctica 1L", "price": 7.50, "desc": "Gelado e refrescante", "img": "images/produtos/guarana-antarctica.jpg", "type": "simple" },
-  { "id": 30, "cat": "bebidas", "name": "Kuat 2L", "price": 10.00, "desc": "Sabor guaraná", "img": "images/produtos/guarana-kuat.jpg", "type": "simple" },
-  { "id": 31, "cat": "bebidas", "name": "Grapete 2L", "price": 10.00, "desc": "Sabor uva", "img": "images/produtos/grapete.jpg", "type": "simple" },
-  { "id": 32, "cat": "bebidas", "name": "Sukita 2L", "price": 10.00, "desc": "Sabor laranja", "img": "images/produtos/sukita.jpg", "type": "simple" },
-  { "id": 33, "cat": "bebidas", "name": "Suco de Acerola", "price": 6.00, "desc": "Suco Natural de Acerola Produto da Casa.", "img": "images/produtos/suco-acerola.jpg", "type": "simple" }
+  {
+    "id": 1,
+    "cat": "lanches",
+    "name": "Hambúrguer",
+    "price": 9,
+    "desc": "Pão com gergelim, carne bovina",
+    "img": "images/produtos/hamburguer-simples.jpg",
+    "type": "sandwich"
+  },
+  {
+    "id": 2,
+    "cat": "lanches",
+    "name": "Hambúrguer com Ovo",
+    "price": 12,
+    "desc": "Pão com gergelim, carne bovina, ovo frito",
+    "img": "images/produtos/hamburguer-com-ovo.jpg",
+    "type": "sandwich"
+  },
+  {
+    "id": 3,
+    "cat": "lanches",
+    "name": "X-Burguer",
+    "price": 12,
+    "desc": "Pão com gergelim, carne, queijo, presunto",
+    "img": "images/produtos/x-burguer.jpg",
+    "type": "sandwich"
+  },
+  {
+    "id": 4,
+    "cat": "lanches",
+    "name": "X-Eggburguer",
+    "price": 15,
+    "desc": "Pão com gergelim, carne, queijo, presunto, ovo",
+    "img": "images/produtos/x-egg-burguer.jpg",
+    "type": "sandwich"
+  },
+  {
+    "id": 5,
+    "cat": "lanches",
+    "name": "X-Calabresa",
+    "price": 15,
+    "desc": "Pão com gergelim, carne, queijo, presunto, calabresa acebolada",
+    "img": "images/produtos/x-calabresa.jpg",
+    "type": "sandwich"
+  },
+  {
+    "id": 6,
+    "cat": "lanches",
+    "name": "X-Bacon",
+    "price": 15,
+    "desc": "Pão com gergelim, carne, queijo, presunto, bacon crocante",
+    "img": "images/produtos/x-bacon.jpg",
+    "type": "sandwich"
+  },
+  {
+    "id": 7,
+    "cat": "lanches",
+    "name": "X-Tudo",
+    "price": 16,
+    "desc": "Pão, carne, queijo, presunto, ovo, bacon, calabresa",
+    "img": "images/produtos/x-tudo.jpg",
+    "type": "sandwich"
+  },
+  {
+    "id": 8,
+    "cat": "lanches",
+    "name": "X-Burguer Duplo",
+    "price": 18,
+    "desc": "Pão, 2 carnes, 2 queijos, 2 presuntos",
+    "img": "images/produtos/x-burguer.jpg",
+    "type": "sandwich"
+  },
+  {
+    "id": 9,
+    "cat": "lanches",
+    "name": "X-Eggburguer Duplo",
+    "price": 22,
+    "desc": "Pão, 2 carnes, 2 queijos, 2 presuntos, 2 ovos",
+    "img": "images/produtos/x-egg-duplo.jpg",
+    "type": "sandwich"
+  },
+  {
+    "id": 10,
+    "cat": "lanches",
+    "name": "X-Calabresa Duplo",
+    "price": 22,
+    "desc": "Pão, 2 carnes, 2 queijos, 2 presuntos, calabresa dupla",
+    "img": "images/produtos/x-calabresa-duplo.jpg",
+    "type": "sandwich"
+  },
+  {
+    "id": 11,
+    "cat": "lanches",
+    "name": "X-Bacon Duplo",
+    "price": 22,
+    "desc": "Pão, 2 carnes, 2 queijos, 2 presuntos, bacon duplo",
+    "img": "images/produtos/x-bacon-duplo.jpg",
+    "type": "sandwich"
+  },
+  {
+    "id": 12,
+    "cat": "lanches",
+    "name": "X-Tudo Duplo",
+    "price": 25,
+    "desc": "Pão, 2 carnes, 2 queijos, 2 presuntos, 2 ovos, 2 bacon, calabresa",
+    "img": "images/produtos/x-tudo-duplo.jpg",
+    "type": "sandwich"
+  },
+  {
+    "id": 13,
+    "cat": "acai",
+    "name": "Açaí 150ml",
+    "price": 5,
+    "desc": "Açaí cremoso premium",
+    "img": "images/produtos/acai-150ml.jpg",
+    "type": "acai",
+    "freeLimit": 3,
+    "coverLimit": 1
+  },
+  {
+    "id": 14,
+    "cat": "acai",
+    "name": "Açaí 200ml",
+    "price": 6,
+    "desc": "Açaí cremoso premium",
+    "img": "images/produtos/acai-200ml.jpg",
+    "type": "acai",
+    "freeLimit": 3,
+    "coverLimit": 1
+  },
+  {
+    "id": 15,
+    "cat": "acai",
+    "name": "Açaí 250ml",
+    "price": 8,
+    "desc": "Açaí cremoso premium",
+    "img": "images/produtos/acai-250ml.jpg",
+    "type": "acai",
+    "freeLimit": 3,
+    "coverLimit": 1
+  },
+  {
+    "id": 16,
+    "cat": "acai",
+    "name": "Açaí 300ml",
+    "price": 10,
+    "desc": "Açaí cremoso premium",
+    "img": "images/produtos/acai-300ml.jpg",
+    "type": "acai",
+    "freeLimit": 3,
+    "coverLimit": 1
+  },
+  {
+    "id": 17,
+    "cat": "acai",
+    "name": "Açaí 400ml",
+    "price": 12,
+    "desc": "Açaí cremoso premium",
+    "img": "images/produtos/acai-400ml.jpg",
+    "type": "acai",
+    "freeLimit": 3,
+    "coverLimit": 1
+  },
+  {
+    "id": 18,
+    "cat": "acai",
+    "name": "Açaí 500ml",
+    "price": 15,
+    "desc": "Açaí cremoso premium",
+    "img": "images/produtos/acai-500ml.jpg",
+    "type": "acai",
+    "freeLimit": 3,
+    "coverLimit": 1
+  },
+  {
+    "id": 19,
+    "cat": "acai",
+    "name": "Açaí 770ml",
+    "price": 18,
+    "desc": "Açaí cremoso premium gigante",
+    "img": "images/produtos/acai-770ml.jpg",
+    "type": "acai",
+    "freeLimit": 4,
+    "coverLimit": 2
+  },
+  {
+    "id": 20,
+    "cat": "acai",
+    "name": "Açaí 1 Litro",
+    "price": 28,
+    "desc": "Açaí cremoso premium família",
+    "img": "images/produtos/acai-1litro.jpg",
+    "type": "acai",
+    "freeLimit": 4,
+    "coverLimit": 2
+  },
+  {
+    "id": 21,
+    "cat": "porcoes",
+    "name": "Batata Frita Caixinha",
+    "price": 10,
+    "desc": "Crocante, sequinha e salgadinha",
+    "img": "images/produtos/batata-frita-tradicional.jpg",
+    "type": "simple"
+  },
+  {
+    "id": 22,
+    "cat": "porcoes",
+    "name": "Hot Dog de Salsicha",
+    "price": 12,
+    "desc": "Pão macio, salsicha, molho e batata palha",
+    "img": "images/produtos/hot-dog-salsicha.jpg",
+    "type": "simple"
+  },
+  {
+    "id": 23,
+    "cat": "porcoes",
+    "name": "Hot Dog de Linguiça",
+    "price": 15,
+    "desc": "Pão macio, linguiça artesanal e molho especial",
+    "img": "images/produtos/hot-dog-linguica.jpg",
+    "type": "simple"
+  },
+  {
+    "id": 24,
+    "cat": "palhas",
+    "name": "Palha Italiana de Açaí",
+    "price": 8,
+    "desc": "Gourmet e artesanal",
+    "img": "images/produtos/palha-italiana-acai.jpg",
+    "type": "simple"
+  },
+  {
+    "id": 25,
+    "cat": "palhas",
+    "name": "Palha Italiana Beijinho",
+    "price": 8,
+    "desc": "Delicioso sabor de coco",
+    "img": "images/produtos/palha-italiana-beijinho.jpg",
+    "type": "simple"
+  },
+  {
+    "id": 26,
+    "cat": "palhas",
+    "name": "Palha Italiana de Oreo",
+    "price": 10,
+    "desc": "Com pedaços reais de Oreo",
+    "img": "images/produtos/palha-italiana-oreo.jpg",
+    "type": "simple"
+  },
+  {
+    "id": 27,
+    "cat": "bebidas",
+    "name": "Guaravita Copo",
+    "price": 2,
+    "desc": "290ml gelado",
+    "img": "images/produtos/guaravita.jpg",
+    "type": "simple"
+  },
+  {
+    "id": 28,
+    "cat": "bebidas",
+    "name": "Coca-Cola Lata",
+    "price": 6,
+    "desc": "350ml gelada",
+    "img": "images/produtos/coca-cola-lata.jpg",
+    "type": "simple"
+  },
+  {
+    "id": 29,
+    "cat": "bebidas",
+    "name": "Guaraná Antarctica 1L",
+    "price": 7.5,
+    "desc": "Gelado e refrescante",
+    "img": "images/produtos/guarana-antarctica.jpg",
+    "type": "simple"
+  },
+  {
+    "id": 30,
+    "cat": "bebidas",
+    "name": "Kuat 2L",
+    "price": 10,
+    "desc": "Sabor guaraná",
+    "img": "images/produtos/guarana-kuat.jpg",
+    "type": "simple"
+  },
+  {
+    "id": 31,
+    "cat": "bebidas",
+    "name": "Grapete 2L",
+    "price": 10,
+    "desc": "Sabor uva",
+    "img": "images/produtos/grapete.jpg",
+    "type": "simple"
+  },
+  {
+    "id": 32,
+    "cat": "bebidas",
+    "name": "Sukita 2L",
+    "price": 10,
+    "desc": "Sabor laranja",
+    "img": "images/produtos/sukita.jpg",
+    "type": "simple"
+  },
+  {
+    "id": 33,
+    "cat": "bebidas",
+    "name": "Suco de Acerola",
+    "price": 6,
+    "desc": "Suco Natural de Acerola Produto da Casa.",
+    "img": "images/produtos/suco-acerola.jpg",
+    "type": "simple"
+  }
 ]
