@@ -22,17 +22,57 @@
             --accent: #5d0373;
             --dark: #1a1a1a;
             --bg: #f4f4f4;
+            --card-bg: #ffffff;
+            --text-main: #1a1a1a;
+            --text-muted: #666666;
+        }
+
+        .dark-mode {
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --text-main: #f4f4f4;
+            --text-muted: #aaaaaa;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
             background-color: var(--bg);
-            color: var(--dark);
+            color: var(--text-main);
             -webkit-tap-highlight-color: transparent;
             scroll-behavior: smooth;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         .font-brand { font-family: 'Montserrat', sans-serif; }
+
+        /* Animações */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        
+        @keyframes pulse-small { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        .pulse { animation: pulse-small 2s infinite; }
+
+        /* Banner Hero Parallax-ish */
+        .hero-banner {
+            position: relative;
+            height: 350px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('banner-capa.png') center/cover no-repeat;
+            z-index: -1;
+            filter: brightness(0.7);
+            transform: scale(1.1);
+            transition: transform 0.5s ease-out;
+        }
+        .hero-banner:hover .hero-bg { transform: scale(1.15); }
 
         /* App-like Navigation */
         .bottom-nav {
@@ -40,13 +80,14 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: white;
+            background: var(--card-bg);
             display: flex;
             justify-content: space-around;
             padding: 12px 0;
             box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
             z-index: 100;
             border-radius: 20px 20px 0 0;
+            border-top: 1px solid rgba(0,0,0,0.05);
         }
 
         .nav-item {
@@ -55,228 +96,201 @@
             align-items: center;
             font-size: 0.65rem;
             font-weight: 700;
-            color: #999;
+            color: var(--text-muted);
             transition: all 0.3s;
         }
 
-        .nav-item.active {
-            color: var(--secondary);
-        }
-
-        .nav-item i {
-            font-size: 1.4rem;
-            margin-bottom: 2px;
-        }
+        .nav-item.active { color: var(--secondary); }
+        .nav-item i { font-size: 1.4rem; margin-bottom: 2px; }
 
         /* Product Cards */
         .product-card {
-            background: white;
-            border-radius: 18px;
+            background: var(--card-bg);
+            border-radius: 22px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: transform 0.2s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0,0,0,0.03);
         }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .product-card:active { transform: scale(0.97); }
 
-        .product-card:active {
-            transform: scale(0.96);
+        .category-btn {
+            white-space: nowrap;
+            transition: all 0.3s;
+            border: 2px solid transparent;
         }
-
-        /* Efeito de zoom nas imagens da vitrine */
-        .product-card img {
-            transition: transform 0.5s ease;
-            transform: scale(0.85);
-        }
-
-        .product-card:hover img, .product-card:active img {
-            transform: scale(1.05);
-        }
-
-        /* Botão Instalar App */
-        #install-button {
-            display: none;
-            background: var(--primary);
-            color: var(--dark);
-            font-weight: 800;
-            padding: 6px 12px;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        .category-btn.active {
+            background-color: var(--secondary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(218, 41, 28, 0.3);
         }
 
         /* Status Badge */
         .status-badge {
             padding: 4px 12px;
-            border-radius: 50px;
+            border-radius: 99px;
             font-size: 0.75rem;
             font-weight: 800;
             display: flex;
             align-items: center;
             gap: 6px;
         }
+        .status-open { background: #dcfce7; color: #166534; }
+        .status-closed { background: #fee2e2; color: #991b1b; }
+        .status-extra { background: #fef9c3; color: #854d0e; }
 
-        .status-open { background: #e6fffa; color: #319795; }
-        .status-closed { background: #fff5f5; color: #e53e3e; }
-        .status-soon { background: #fffaf0; color: #dd6b20; }
-        .status-extra { background: #f0fff4; color: #276749; }
-
-        /* Admin Tabs */
-        .admin-tab-btn {
-            padding: 10px 15px;
-            font-weight: 700;
-            color: #666;
-            border-bottom: 3px solid transparent;
-            white-space: nowrap;
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
         }
-
-        .admin-tab-btn.active {
-            color: var(--secondary);
-            border-bottom-color: var(--secondary);
+        .modal.active { display: flex; }
+        .modal-content {
+            background: var(--card-bg);
+            width: 90%;
+            max-width: 500px;
+            max-height: 85vh;
+            border-radius: 30px;
+            overflow: hidden;
+            display: flex;
+            flex-col;
+            animation: slideUp 0.3s ease-out;
         }
+        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
+        /* Custom Scrollbar */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        @keyframes pulse-red {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-            100% { transform: scale(1); opacity: 1; }
+        /* Dark Mode Toggle */
+        .toggle-switch {
+            width: 50px;
+            height: 26px;
+            background: #ccc;
+            border-radius: 13px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
         }
-        .pulse { animation: pulse-red 2s infinite; }
-
-        /* Botão Abertura Extraordinária */
-        .btn-extra-open {
-            background: linear-gradient(135deg, #276749, #38a169);
-            color: white;
-            font-weight: 800;
-            padding: 14px 20px;
-            border-radius: 16px;
-            font-size: 0.9rem;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 15px rgba(39,103,73,0.3);
-            transition: all 0.2s;
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
         }
-        .btn-extra-open:active { transform: scale(0.97); }
-        .btn-extra-close {
-            background: linear-gradient(135deg, #c53030, #e53e3e);
-            color: white;
-            font-weight: 800;
-            padding: 14px 20px;
-            border-radius: 16px;
-            font-size: 0.9rem;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 15px rgba(197,48,48,0.3);
-            transition: all 0.2s;
-        }
-        .btn-extra-close:active { transform: scale(0.97); }
+        .dark-mode .toggle-switch { background: var(--accent); }
+        .dark-mode .toggle-switch::after { transform: translateX(24px); }
     </style>
 </head>
-<body class="pb-24">
+<body class="no-scrollbar">
 
-    <!-- Header -->
-    <header class="bg-white px-6 py-4 sticky top-0 z-50 shadow-sm">
-        <div class="flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <img src="images/logo.png" alt="Logo" class="h-12 w-12 object-contain">
-                <div>
-                    <div class="flex items-center gap-2">
-                        <h1 class="text-lg font-black leading-none">Cabral & Izaura</h1>
-                        <button id="install-button" onclick="installPWA()">
-                            <i class="fas fa-download mr-1"></i> Instalar
-                        </button>
-                    </div>
-                    <div id="store-status" class="mt-1">
-                        <span class="status-badge status-closed">Carregando...</span>
-                    </div>
+    <!-- Hero Section -->
+    <section class="hero-banner">
+        <div class="hero-bg"></div>
+        <div class="relative z-10 px-6 animate-fade-in">
+            <div class="flex justify-between items-start mb-8">
+                <div id="store-status">
+                    <!-- Status via JS -->
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleDarkMode()" class="bg-white/20 backdrop-blur-md p-2 rounded-full text-white">
+                        <i class="fas fa-moon" id="dark-icon"></i>
+                    </button>
+                    <button id="install-button" onclick="installPWA()" class="hidden bg-yellow-400 text-black px-4 py-1.5 rounded-full font-black text-xs shadow-lg">
+                        INSTALAR
+                    </button>
                 </div>
             </div>
-            <button onclick="toggleCart()" class="relative bg-red-600 text-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg active:scale-90 transition">
-                <i class="fas fa-shopping-bag text-xl"></i>
-                <span id="cart-count" class="absolute -top-2 -right-2 bg-yellow-400 text-black text-[10px] font-black w-6 h-6 rounded-full flex items-center justify-center border-4 border-white">0</span>
-            </button>
-        </div>
-    </header>
-
-    <!-- Hero / Categories -->
-    <section class="px-6 py-6">
-        <div class="rounded-3xl overflow-hidden shadow-xl mb-8">
-            <img src="images/banner.png" alt="Banner" class="w-full">
-        </div>
-
-        <div class="flex gap-4 overflow-x-auto no-scrollbar pb-2">
-            <button onclick="filterCategory('lanches')" class="cat-btn active bg-red-600 text-white px-6 py-3 rounded-2xl font-bold shadow-sm border-2 border-transparent transition whitespace-nowrap">🍔 Lanches</button>
-            <button onclick="filterCategory('acai')" class="cat-btn bg-white px-6 py-3 rounded-2xl font-bold shadow-sm border-2 border-transparent transition whitespace-nowrap">🍇 Açaí</button>
-            <button onclick="filterCategory('porcoes')" class="cat-btn bg-white px-6 py-3 rounded-2xl font-bold shadow-sm border-2 border-transparent transition whitespace-nowrap">🍟 Porções</button>
-            <button onclick="filterCategory('bebidas')" class="cat-btn bg-white px-6 py-3 rounded-2xl font-bold shadow-sm border-2 border-transparent transition whitespace-nowrap">🥤 Bebidas</button>
+            
+            <img src="images/logo.png" alt="Logo" class="w-24 h-24 mx-auto mb-4 rounded-full border-4 border-white shadow-2xl pulse">
+            <h1 class="text-4xl font-black font-brand mb-1 drop-shadow-md">Cabral & Izaura</h1>
+            <p class="text-sm font-medium opacity-90 drop-shadow-md mb-4">Lanches & Açaí — Desde 1998</p>
+            <div class="inline-block bg-white/20 backdrop-blur-md px-4 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">
+                "Fiel é Deus"
+            </div>
         </div>
     </section>
 
-    <!-- Products Grid -->
-    <main class="px-6 grid grid-cols-1 gap-6" id="products-grid">
-        <!-- Dinâmico -->
+    <!-- Menu Section -->
+    <main class="max-w-4xl mx-auto px-4 -mt-8 relative z-20 pb-32">
+        <!-- Categories -->
+        <div class="flex gap-3 overflow-x-auto no-scrollbar pb-6">
+            <button onclick="filterCategory('lanches')" class="category-btn active bg-card-bg px-6 py-3 rounded-2xl font-bold shadow-sm border-2 border-transparent transition whitespace-nowrap">🍔 Lanches</button>
+            <button onclick="filterCategory('acai')" class="category-btn bg-card-bg px-6 py-3 rounded-2xl font-bold shadow-sm border-2 border-transparent transition whitespace-nowrap">🍇 Açaí</button>
+            <button onclick="filterCategory('porcoes')" class="category-btn bg-card-bg px-6 py-3 rounded-2xl font-bold shadow-sm border-2 border-transparent transition whitespace-nowrap">🍟 Porções</button>
+            <button onclick="filterCategory('bebidas')" class="category-btn bg-card-bg px-6 py-3 rounded-2xl font-bold shadow-sm border-2 border-transparent transition whitespace-nowrap">🥤 Bebidas</button>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- JS Injection -->
+        </div>
+
+        <!-- About Section -->
+        <footer id="about" class="bg-gray-900 text-white mt-12 pt-16 pb-12 px-6 rounded-t-[40px]">
+            <div class="max-w-2xl mx-auto space-y-12">
+                <div>
+                    <h3 class="text-2xl font-black mb-4 font-brand text-yellow-400">Sobre Nós</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Desde 1998, Cabral & Izaura é referência em sabor e tradição na nossa região! Preparamos os melhores lanches, hot-dogs e açaís com ingredientes selecionados, muito carinho e o nosso lendário molho verde especial.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-black mb-6 font-brand text-yellow-400">Onde Estamos</h3>
+                    <p class="text-gray-400 text-sm mb-6">
+                        <i class="fas fa-map-marker-alt text-red-500 mr-2"></i>
+                        Rua Orquídea, 38 — Pavuna, Rio de Janeiro, RJ
+                    </p>
+                    <div class="grid grid-cols-2 gap-3 mb-4">
+                        <img src="images/loja-1.jpg" class="w-full h-40 object-cover rounded-2xl border border-gray-800">
+                        <img src="images/loja-2.jpg" class="w-full h-40 object-cover rounded-2xl border border-gray-800">
+                    </div>
+                    <img src="images/sobre-nos.png" class="w-full h-52 object-cover rounded-2xl border border-gray-800">
+                </div>
+
+                <div class="grid grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-bold mb-4 text-yellow-400">Funcionamento</h4>
+                        <ul class="text-[10px] text-gray-400 space-y-2">
+                            <li class="flex justify-between"><span>Seg-Qui:</span> <span class="text-white">18:30-22:30</span></li>
+                            <li class="flex justify-between"><span>Sex-Sáb:</span> <span class="text-white">18:00-00:30</span></li>
+                            <li class="flex justify-between"><span>Dom:</span> <span class="text-white">18:00-00:00</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-4 text-yellow-400">Contato</h4>
+                        <p class="text-sm text-gray-400 mb-2"><i class="fab fa-whatsapp text-green-500 mr-2"></i> (21) 99123-8516</p>
+                        <div class="flex gap-4 mt-4">
+                            <a href="#" class="text-white text-xl"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="text-white text-xl"><i class="fab fa-facebook"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-8 border-t border-gray-800 text-center">
+                    <button onclick="openLogin()" class="text-gray-600 hover:text-gray-400 transition text-xs">
+                        <i class="fas fa-cog mr-1"></i> Configurações Administrativas
+                    </button>
+                    <p class="text-[8px] text-gray-700 mt-4">© 2026 Cabral & Izaura. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </footer>
     </main>
 
-    <!-- Footer -->
-    <footer id="about" class="bg-gray-900 text-white mt-12 pt-16 pb-32 px-6">
-        <div class="max-w-4xl mx-auto space-y-12">
-            <div>
-                <h3 class="text-2xl font-black mb-4">Sobre Nós</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">
-                    Desde 1998, Cabral & Izaura é referência em sabor e tradição na nossa região! Preparamos os melhores lanches, hot-dogs e açaís com ingredientes selecionados, muito carinho e, claro, o nosso lendário molho verde especial da casa — uma receita exclusiva que conquista gerações. Mais que uma lanchonete, somos um ponto de encontro feito para servir você com a máxima qualidade. Peça agora e descubra esse sabor que já faz parte da história das nossas famílias!
-                </p>
-            </div>
-            
-            <div>
-                <h3 class="text-2xl font-black mb-6">Onde Estamos</h3>
-                <p class="text-gray-400 text-sm mb-4">
-                    <i class="fas fa-map-marker-alt text-red-600 mr-2"></i>
-                    Rua Orquídea, 38 — Pavuna, Rio de Janeiro, RJ — CEP 21535-620
-                </p>
-                <div class="grid grid-cols-2 gap-3 mb-3">
-                    <img src="images/loja-1.jpg" alt="Foto da Loja 1" class="w-full h-48 object-cover rounded-2xl shadow-lg border border-gray-800">
-                    <img src="images/loja-2.jpg" alt="Foto da Loja 2" class="w-full h-48 object-cover rounded-2xl shadow-lg border border-gray-800">
-                </div>
-                <div class="w-full">
-                    <img src="images/sobre-nos.png" alt="Clientes na Loja" class="w-full h-52 object-cover rounded-2xl shadow-lg border border-gray-800">
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                    <h3 class="text-xl font-black mb-4">Funcionamento</h3>
-                    <ul class="text-sm text-gray-400 space-y-2">
-                        <li class="flex justify-between"><span>Segunda a Quinta:</span> <span class="text-white">18:30 - 22:30</span></li>
-                        <li class="flex justify-between"><span>Sexta e Sábado:</span> <span class="text-white">18:00 - 00:30</span></li>
-                        <li class="flex justify-between"><span>Domingo:</span> <span class="text-white">18:00 - 00:00</span></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-xl font-black mb-4">Contato</h3>
-                    <p class="text-gray-400 text-sm">
-                        <i class="fab fa-whatsapp text-green-500 mr-2"></i>
-                        (21) 99123-8516
-                    </p>
-                    <p class="text-gray-500 text-xs mt-4 italic">"Fiel é Deus — 1° Coríntios 1:9"</p>
-                </div>
-            </div>
-
-            <div class="pt-8 border-t border-gray-800 text-center">
-                <button onclick="openLogin()" class="text-gray-600 hover:text-gray-400 transition text-sm">
-                    <i class="fas fa-cog mr-1"></i> Configurações Administrativas
-                </button>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Bottom Nav -->
+    <!-- Bottom Navigation -->
     <nav class="bottom-nav">
         <a href="#" class="nav-item active">
             <i class="fas fa-home"></i>
@@ -286,13 +300,47 @@
             <i class="fas fa-info-circle"></i>
             <span>Sobre</span>
         </a>
+        <button onclick="toggleCart()" class="nav-item relative">
+            <div class="bg-red-600 text-white w-12 h-12 rounded-2xl flex items-center justify-center -mt-8 shadow-xl active:scale-90 transition">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cart-count" class="absolute -top-2 -right-2 bg-yellow-400 text-black text-[10px] font-black w-6 h-6 rounded-full flex items-center justify-center border-4 border-white">0</span>
+            </div>
+            <span class="mt-1">Carrinho</span>
+        </button>
         <a href="https://wa.me/5521991238516" target="_blank" class="nav-item">
             <i class="fab fa-whatsapp"></i>
             <span>WhatsApp</span>
         </a>
+        <button onclick="shareSite()" class="nav-item">
+            <i class="fas fa-share-alt"></i>
+            <span>Indicar</span>
+        </button>
     </nav>
 
-    <!-- Modals (Admin, Loading) -->
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content flex flex-col h-[80vh]">
+            <div class="bg-red-600 text-white p-6 flex justify-between items-center">
+                <h2 class="font-black text-xl">Seu Pedido</h2>
+                <button onclick="toggleCart()" class="text-2xl">&times;</button>
+            </div>
+            <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4 no-scrollbar">
+                <!-- JS Injection -->
+            </div>
+            <div class="p-6 border-t border-gray-100 bg-gray-50 dark:bg-gray-800">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="font-bold text-gray-500">Total:</span>
+                    <span id="cart-total" class="text-2xl font-black text-green-600">R$ 0,00</span>
+                </div>
+                <button onclick="checkout()" class="w-full bg-green-500 text-white py-4 rounded-2xl font-black shadow-lg active:scale-95 transition flex items-center justify-center gap-3">
+                    <i class="fab fa-whatsapp text-xl"></i>
+                    FINALIZAR NO WHATSAPP
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Loading -->
     <div id="admin-loading" class="hidden fixed inset-0 bg-black/80 flex flex-col items-center justify-center text-white font-bold z-[5000]">
         <div class="w-12 h-12 border-4 border-red-600 border-t-white rounded-full animate-spin mb-4"></div>
         <span>Sincronizando com GitHub...</span>
@@ -306,173 +354,201 @@
         const REPO_NAME = 'cabral-izaura';
         const ADMIN_PASS = 'Apc@#$1996';
         let GITHUB_TOKEN = localStorage.getItem('gh_token') || '';
-
-        // Abertura extraordinária: armazenada em memória (não persiste entre sessões)
-        let extraOpenActive = false;
-
+        let extraOpenActive = localStorage.getItem('extra_open') === 'true';
+        
         const OPENING_HOURS = {
-            1: { open: "18:30", close: "22:30" }, // Seg
-            2: { open: "18:30", close: "22:30" }, // Ter
-            3: { open: "18:30", close: "22:30" }, // Qua
-            4: { open: "18:30", close: "22:30" }, // Qui
-            5: { open: "18:00", close: "00:30" }, // Sex
-            6: { open: "18:00", close: "00:30" }, // Sab
-            0: { open: "18:00", close: "00:00" }  // Dom
+            1: { open: "18:30", close: "22:30" },
+            2: { open: "18:30", close: "22:30" },
+            3: { open: "18:30", close: "22:30" },
+            4: { open: "18:30", close: "22:30" },
+            5: { open: "18:00", close: "00:30" },
+            6: { open: "18:00", close: "00:30" },
+            0: { open: "18:00", close: "00:00" }
         };
 
         let MENU = [];
+        let CART = [];
         let currentCategory = 'lanches';
         let audioPlayed = false;
+        let isStoreOpen = false;
 
         // ─── Áudio de Boas-Vindas ─────────────────────────────────────────────────
-        // Toca no primeiro clique/toque do usuário, independente do status da loja
         let audioInitialized = false;
         function initAudio() {
             if (audioInitialized) return;
             audioInitialized = true;
             const audio = document.getElementById('welcome-audio');
-            audio.src = 'audio-boas-vindas.mp3?v=' + Date.now(); // Cache-busting
-            audio.volume = 0.5; // Volume aumentado para garantir audição
+            audio.src = 'audio-boas-vindas.mp3?v=' + Date.now();
+            audio.volume = 0.5;
             audio.load();
         }
+
         document.addEventListener('click', function playWelcome() {
             if (!audioPlayed) {
                 initAudio();
                 const audio = document.getElementById('welcome-audio');
-                audio.play()
-                    .then(() => { audioPlayed = true; console.log('Áudio tocando...'); })
-                    .catch(e => {
-                        console.log('Erro ao tocar áudio:', e);
-                        // Tenta novamente com um pequeno delay
-                        setTimeout(() => {
-                            audio.play().catch(err => console.log('Falha na segunda tentativa:', err));
-                        }, 500);
-                    });
+                audio.play().then(() => { audioPlayed = true; }).catch(e => console.log(e));
                 document.removeEventListener('click', playWelcome);
             }
         }, { once: false });
-        // Tenta tocar no carregamento da página também
-        window.addEventListener('load', () => {
-            if (!audioPlayed) {
-                initAudio();
-            }
-        });
 
         // ─── Inicialização ────────────────────────────────────────────────────────
         async function init() {
             try {
-                // Carrega do servidor com bypass de cache para garantir dados atualizados
                 const res = await fetch('products.json?nocache=' + Date.now(), {
                     cache: 'no-store',
-                    headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate' }
+                    headers: { 'Cache-Control': 'no-cache' }
                 });
-                const serverMenu = await res.json();
-                MENU = serverMenu;
-                // Atualiza localStorage com dados frescos do servidor
+                MENU = await res.json();
                 localStorage.setItem('cabral_menu_temp', JSON.stringify(MENU));
                 renderProducts();
             } catch (e) {
-                // Fallback: tenta carregar do localStorage se offline
                 const localMenu = localStorage.getItem('cabral_menu_temp');
-                if (localMenu) {
-                    MENU = JSON.parse(localMenu);
-                    renderProducts();
-                }
-                console.error('Erro ao carregar menu:', e);
+                if (localMenu) { MENU = JSON.parse(localMenu); renderProducts(); }
             }
-
             updateStatus();
             setInterval(updateStatus, 30000);
+            
+            if (localStorage.getItem('darkMode') === 'true') toggleDarkMode(true);
         }
 
-        // ─── Status da Loja ───────────────────────────────────────────────────────
         function updateStatus() {
             const statusDiv = document.getElementById('store-status');
-
-            // Abertura extraordinária ativa
-            if (extraOpenActive) {
-                statusDiv.innerHTML = '<span class="status-badge status-extra"><i class="fas fa-circle text-[8px] pulse"></i> Aberto — Horário Especial</span>';
-                return;
-            }
-
             const now = new Date();
             const day = now.getDay();
             const hours = now.getHours();
             const mins = now.getMinutes();
             const currentTime = hours.toString().padStart(2, '0') + ':' + mins.toString().padStart(2, '0');
-            
             const schedule = OPENING_HOURS[day];
             
-            let isOpen = false;
-            if (schedule.close < schedule.open) {
-                if (currentTime >= schedule.open || currentTime < schedule.close) isOpen = true;
+            isStoreOpen = false;
+            if (extraOpenActive) {
+                isStoreOpen = true;
+                statusDiv.innerHTML = '<span class="status-badge status-extra"><i class="fas fa-circle text-[8px] pulse"></i> Aberto — Horário Especial</span>';
             } else {
-                if (currentTime >= schedule.open && currentTime < schedule.close) isOpen = true;
-            }
+                if (schedule.close < schedule.open) {
+                    if (currentTime >= schedule.open || currentTime < schedule.close) isStoreOpen = true;
+                } else {
+                    if (currentTime >= schedule.open && currentTime < schedule.close) isStoreOpen = true;
+                }
 
-            if (isOpen) {
-                const [closeH, closeM] = schedule.close.split(':').map(Number);
-                let closeDate = new Date(now);
-                closeDate.setHours(closeH, closeM, 0);
-                if (closeH < parseInt(schedule.open.split(':')[0])) closeDate.setDate(closeDate.getDate() + 1);
-                
-                const diff = Math.floor((closeDate - now) / 60000);
-                let timeMsg = '';
-                if (diff > 0 && diff <= 60) timeMsg = ' (Fecha em ' + diff + ' min)';
-                
-                statusDiv.innerHTML = '<span class="status-badge status-open"><i class="fas fa-circle text-[8px] pulse"></i> Aberto Agora' + timeMsg + '</span>';
-            } else {
-                const [openH, openM] = schedule.open.split(':').map(Number);
-                let openDate = new Date(now);
-                openDate.setHours(openH, openM, 0);
-                if (now > openDate) openDate.setDate(openDate.getDate() + 1);
-                
-                const diff = Math.floor((openDate - now) / 60000);
-                let timeMsg = '';
-                if (diff > 0 && diff <= 120) timeMsg = ' (Abre em ' + Math.floor(diff/60) + 'h ' + (diff%60) + 'min)';
-                
-                statusDiv.innerHTML = '<span class="status-badge status-closed"><i class="fas fa-moon"></i> Fechado Agora' + timeMsg + '</span>';
+                if (isStoreOpen) {
+                    statusDiv.innerHTML = '<span class="status-badge status-open"><i class="fas fa-circle text-[8px] pulse"></i> Aberto Agora</span>';
+                } else {
+                    statusDiv.innerHTML = '<span class="status-badge status-closed"><i class="fas fa-moon"></i> Fechado Agora</span>';
+                }
             }
         }
 
-        // ─── Renderização de Produtos ─────────────────────────────────────────────
         function renderProducts() {
             const grid = document.getElementById('products-grid');
             grid.innerHTML = '';
             const filtered = MENU.filter(p => p.cat === currentCategory);
+            
             filtered.forEach(p => {
                 const card = document.createElement('div');
-                card.className = 'product-card flex items-center p-4 gap-4';
-                card.innerHTML =
-                    '<div class="w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0 bg-gray-100">' +
-                        '<img src="' + p.img + '" class="w-full h-full object-cover">' +
-                    '</div>' +
-                    '<div class="flex-1">' +
-                        '<h3 class="font-bold text-gray-900">' + p.name + '</h3>' +
-                        '<p class="text-xs text-gray-500 line-clamp-2 mt-1">' + p.desc + '</p>' +
-                        '<p class="text-green-600 font-black mt-2">R$ ' + parseFloat(p.price).toFixed(2) + '</p>' +
-                    '</div>' +
-                    '<div class="bg-red-50 w-10 h-10 rounded-full flex items-center justify-center text-red-600">' +
-                        '<i class="fas fa-plus"></i>' +
-                    '</div>';
+                card.className = 'product-card flex items-center p-4 gap-4 animate-fade-in';
+                card.onclick = () => addToCart(p);
+                card.innerHTML = `
+                    <div class="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 bg-gray-100">
+                        <img src="${p.img}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-sm">${p.name}</h3>
+                        <p class="text-[10px] text-muted line-clamp-2 mt-1">${p.desc}</p>
+                        <p class="text-green-600 font-black mt-2 text-sm">R$ ${parseFloat(p.price).toFixed(2)}</p>
+                    </div>
+                    <div class="${isStoreOpen ? 'bg-red-50 text-red-600' : 'bg-gray-100 text-gray-400'} w-10 h-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                `;
                 grid.appendChild(card);
             });
         }
 
         function filterCategory(cat) {
             currentCategory = cat;
-            document.querySelectorAll('.cat-btn').forEach(b => {
-                b.classList.remove('bg-red-600', 'text-white');
-                b.classList.add('bg-white');
-                if (b.textContent.toLowerCase().includes(cat)) {
-                    b.classList.remove('bg-white');
-                    b.classList.add('bg-red-600', 'text-white');
-                }
+            document.querySelectorAll('.category-btn').forEach(b => {
+                b.classList.remove('active');
+                if (b.textContent.toLowerCase().includes(cat)) b.classList.add('active');
             });
             renderProducts();
         }
 
-        // ─── Admin Login ──────────────────────────────────────────────────────────
+        // ─── Carrinho ─────────────────────────────────────────────────────────────
+        function addToCart(product) {
+            if (!isStoreOpen) return alert('Loja fechada no momento! Confira nossos horários de funcionamento.');
+            
+            const existing = CART.find(item => item.id === product.id);
+            if (existing) {
+                existing.quantity++;
+            } else {
+                CART.push({ ...product, quantity: 1 });
+            }
+            updateCartUI();
+            
+            // Feedback visual
+            const badge = document.getElementById('cart-count');
+            badge.classList.add('scale-150');
+            setTimeout(() => badge.classList.remove('scale-150'), 200);
+        }
+
+        function updateCartUI() {
+            const count = CART.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-count').innerText = count;
+            
+            const itemsDiv = document.getElementById('cart-items');
+            itemsDiv.innerHTML = '';
+            let total = 0;
+            
+            CART.forEach((item, index) => {
+                total += item.price * item.quantity;
+                const div = document.createElement('div');
+                div.className = 'bg-card-bg p-4 rounded-2xl border border-gray-100 flex justify-between items-center';
+                div.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <img src="${item.img}" class="w-12 h-12 rounded-xl object-cover">
+                        <div>
+                            <h4 class="font-bold text-sm">${item.name}</h4>
+                            <p class="text-xs text-green-600 font-bold">R$ ${(item.price * item.quantity).toFixed(2)}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="changeQty(${index}, -1)" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"><i class="fas fa-minus text-xs"></i></button>
+                        <span class="font-bold">${item.quantity}</span>
+                        <button onclick="changeQty(${index}, 1)" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"><i class="fas fa-plus text-xs"></i></button>
+                    </div>
+                `;
+                itemsDiv.appendChild(div);
+            });
+            
+            if (CART.length === 0) itemsDiv.innerHTML = '<div class="text-center py-12 text-muted"><i class="fas fa-shopping-basket text-4xl mb-4 block opacity-20"></i>Seu carrinho está vazio</div>';
+            document.getElementById('cart-total').innerText = 'R$ ' + total.toFixed(2);
+        }
+
+        function changeQty(index, delta) {
+            CART[index].quantity += delta;
+            if (CART[index].quantity <= 0) CART.splice(index, 1);
+            updateCartUI();
+        }
+
+        function toggleCart() {
+            document.getElementById('cart-modal').classList.toggle('active');
+        }
+
+        function checkout() {
+            if (CART.length === 0) return alert('Seu carrinho está vazio!');
+            let msg = '*NOVO PEDIDO - CABRAL & IZAURA*\n\n';
+            let total = 0;
+            CART.forEach(item => {
+                msg += `✅ *${item.quantity}x ${item.name}* - R$ ${(item.price * item.quantity).toFixed(2)}\n`;
+                total += item.price * item.quantity;
+            });
+            msg += `\n*TOTAL: R$ ${total.toFixed(2)}*\n\nEndereço de entrega:`;
+            window.open(`https://wa.me/5521991238516?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        // ─── Admin ────────────────────────────────────────────────────────────────
         function openLogin() {
             const pass = prompt('Senha Administrativa:');
             if (pass === ADMIN_PASS) {
@@ -484,211 +560,122 @@
             } else if (pass !== null) alert('Senha incorreta!');
         }
 
-        // ─── Painel Admin ─────────────────────────────────────────────────────────
         function openAdmin() {
             const modal = document.createElement('div');
             modal.id = 'admin-modal';
-            modal.className = 'fixed inset-0 bg-white z-[2000] flex flex-col';
-
-            const extraBtnHtml = extraOpenActive
-                ? '<button onclick="toggleExtraOpen()" class="btn-extra-close"><i class="fas fa-lock"></i> Fechar Loja Agora</button>'
-                : '<button onclick="toggleExtraOpen()" class="btn-extra-open"><i class="fas fa-store"></i> Abrir Loja Agora (Extraordinário)</button>';
-
-            modal.innerHTML =
-                '<div class="bg-red-600 text-white p-6 flex justify-between items-center shadow-lg">' +
-                    '<h2 class="font-black text-xl">Painel Admin</h2>' +
-                    '<div class="flex gap-2">' +
-                        '<button onclick="saveAllToGitHub()" class="bg-green-500 px-4 py-2 rounded-xl font-bold text-sm">Salvar Site</button>' +
-                        '<button onclick="document.getElementById(\'admin-modal\').remove()" class="bg-white text-red-600 px-4 py-2 rounded-xl font-bold text-sm">Sair</button>' +
-                    '</div>' +
-                '</div>' +
-                '<div class="flex border-b bg-gray-50 overflow-x-auto no-scrollbar">' +
-                    '<button onclick="renderAdminTab(\'lanches\')" class="admin-tab-btn active" id="tab-lanches">Sanduíches</button>' +
-                    '<button onclick="renderAdminTab(\'acai\')" class="admin-tab-btn" id="tab-acai">Açaí</button>' +
-                    '<button onclick="renderAdminTab(\'porcoes\')" class="admin-tab-btn" id="tab-porcoes">Porções</button>' +
-                    '<button onclick="renderAdminTab(\'bebidas\')" class="admin-tab-btn" id="tab-bebidas">Bebidas</button>' +
-                '</div>' +
-                '<div id="admin-extra-open" class="p-4 bg-gray-50 border-b border-gray-200">' +
-                    extraBtnHtml +
-                    '<p class="text-xs text-gray-500 mt-2 text-center">Abre/fecha a loja manualmente sem alterar o horário semanal cadastrado.</p>' +
-                '</div>' +
-                '<div id="admin-list" class="flex-1 overflow-y-auto p-6 space-y-6"></div>';
-
+            modal.className = 'fixed inset-0 bg-white z-[2000] flex flex-col dark:bg-gray-900';
+            const extraBtnClass = extraOpenActive ? 'bg-red-600 text-white' : 'bg-green-600 text-white';
+            const extraBtnText = extraOpenActive ? 'FECHAR LOJA AGORA' : 'ABRIR LOJA AGORA';
+            
+            modal.innerHTML = `
+                <div class="bg-red-600 text-white p-6 flex justify-between items-center">
+                    <h2 class="font-black text-xl">Painel Admin</h2>
+                    <div class="flex gap-2">
+                        <button onclick="toggleExtraOpen()" id="btn-extra" class="${extraBtnClass} px-4 py-2 rounded-xl font-bold text-xs">${extraBtnText}</button>
+                        <button onclick="saveAllToGitHub()" class="bg-green-500 px-4 py-2 rounded-xl font-bold text-xs">SALVAR</button>
+                        <button onclick="document.getElementById('admin-modal').remove()" class="bg-white text-red-600 px-4 py-2 rounded-xl font-bold text-xs">SAIR</button>
+                    </div>
+                </div>
+                <div class="flex-1 overflow-y-auto p-6 space-y-6 no-scrollbar" id="admin-list">
+                    <!-- JS Injection -->
+                </div>
+            `;
             document.body.appendChild(modal);
-            renderAdminTab('lanches');
+            renderAdminList();
         }
 
-        // ─── Abertura Extraordinária ──────────────────────────────────────────────
-        function toggleExtraOpen() {
-            extraOpenActive = !extraOpenActive;
-            updateStatus();
-
-            // Atualiza o botão no painel admin
-            const container = document.getElementById('admin-extra-open');
-            if (container) {
-                const btnHtml = extraOpenActive
-                    ? '<button onclick="toggleExtraOpen()" class="btn-extra-close"><i class="fas fa-lock"></i> Fechar Loja Agora</button>'
-                    : '<button onclick="toggleExtraOpen()" class="btn-extra-open"><i class="fas fa-store"></i> Abrir Loja Agora (Extraordinário)</button>';
-                container.innerHTML = btnHtml + '<p class="text-xs text-gray-500 mt-2 text-center">Abre/fecha a loja manualmente sem alterar o horário semanal cadastrado.</p>';
-            }
-
-            if (extraOpenActive) {
-                alert('✅ Loja aberta em modo extraordinário!\nO status "Aberto — Horário Especial" já está visível para os clientes.\n\nPara fechar, volte ao painel e clique em "Fechar Loja Agora".');
-            } else {
-                alert('🔒 Abertura extraordinária encerrada.\nA loja voltou ao horário normal de funcionamento.');
-            }
-        }
-
-        // ─── Renderização de Aba Admin ────────────────────────────────────────────
-        function renderAdminTab(cat) {
-            document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
-            const tabEl = document.getElementById('tab-' + cat);
-            if (tabEl) tabEl.classList.add('active');
-
+        function renderAdminList() {
             const list = document.getElementById('admin-list');
-            list.innerHTML = '';
-            MENU.filter(p => p.cat === cat).forEach(p => {
-                const idx = MENU.findIndex(item => item.id === p.id);
-                const card = document.createElement('div');
-                card.className = 'bg-gray-50 p-4 rounded-2xl border border-gray-200 shadow-sm';
-                card.innerHTML =
-                    '<div class="flex gap-4 mb-4">' +
-                        '<div class="relative w-20 h-20 rounded-xl overflow-hidden bg-gray-200">' +
-                            '<img src="' + p.img + '" class="w-full h-full object-cover">' +
-                            '<label class="absolute inset-0 bg-black/40 flex items-center justify-center text-white cursor-pointer">' +
-                                '<i class="fas fa-camera"></i>' +
-                                '<input type="file" class="hidden" onchange="uploadImage(this, ' + idx + ')">' +
-                            '</label>' +
-                        '</div>' +
-                        '<div class="flex-1">' +
-                            '<input type="text" value="' + p.name + '" onchange="MENU[' + idx + '].name = this.value" class="w-full font-bold bg-transparent border-b border-gray-300 mb-2 p-1">' +
-                            '<div class="flex items-center gap-1 text-green-600 font-black">' +
-                                '<span>R$</span>' +
-                                '<input type="number" step="0.01" value="' + p.price + '" onchange="MENU[' + idx + '].price = parseFloat(this.value)" class="w-20 bg-transparent border-b border-gray-300 p-1">' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>' +
-                    '<textarea onchange="MENU[' + idx + '].desc = this.value" class="w-full text-sm p-3 rounded-xl border border-gray-300 h-20">' + p.desc + '</textarea>';
-                list.appendChild(card);
+            list.innerHTML = '<h3 class="font-black text-lg mb-4">Gerenciar Preços</h3>';
+            MENU.forEach((p, idx) => {
+                const div = document.createElement('div');
+                div.className = 'bg-gray-50 dark:bg-gray-800 p-4 rounded-2xl border border-gray-100 flex gap-4 items-center';
+                div.innerHTML = `
+                    <img src="${p.img}" class="w-12 h-12 rounded-xl object-cover">
+                    <div class="flex-1">
+                        <p class="font-bold text-sm">${p.name}</p>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="text-xs text-muted">R$</span>
+                            <input type="number" step="0.5" value="${p.price}" onchange="MENU[${idx}].price = parseFloat(this.value)" class="w-20 bg-transparent border-b border-gray-300 font-bold text-green-600">
+                        </div>
+                    </div>
+                `;
+                list.appendChild(div);
             });
         }
 
-        // ─── Salvar no GitHub ─────────────────────────────────────────────────────
+        function toggleExtraOpen() {
+            extraOpenActive = !extraOpenActive;
+            localStorage.setItem('extra_open', extraOpenActive);
+            const btn = document.getElementById('btn-extra');
+            btn.className = extraOpenActive ? 'bg-red-600 text-white px-4 py-2 rounded-xl font-bold text-xs' : 'bg-green-600 text-white px-4 py-2 rounded-xl font-bold text-xs';
+            btn.innerText = extraOpenActive ? 'FECHAR LOJA AGORA' : 'ABRIR LOJA AGORA';
+            updateStatus();
+            renderProducts(); // Re-render para habilitar/desabilitar botões de compra
+        }
+
         async function saveAllToGitHub() {
             if (!GITHUB_TOKEN) return alert('Token não configurado!');
             document.getElementById('admin-loading').classList.remove('hidden');
             try {
-                const res = await fetch(
-                    'https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME + '/contents/products.json',
-                    { headers: { 'Authorization': 'token ' + GITHUB_TOKEN } }
-                );
+                const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/products.json`, {
+                    headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
+                });
                 const data = await res.json();
-
-                const menuContent = JSON.stringify(MENU, null, 2);
-                const encoded = btoa(unescape(encodeURIComponent(menuContent)));
-
-                const updateRes = await fetch(
-                    'https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME + '/contents/products.json',
-                    {
-                        method: 'PUT',
-                        headers: { 'Authorization': 'token ' + GITHUB_TOKEN, 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ message: 'Update products.json', content: encoded, sha: data.sha })
-                    }
-                );
-
-                if (updateRes.ok) {
-                    // Atualiza localStorage com os dados salvos
-                    localStorage.setItem('cabral_menu_temp', JSON.stringify(MENU));
-                    alert('✅ ALTERAÇÕES SALVAS!\nOs preços e dados foram atualizados com sucesso no servidor.\nO site refletirá as mudanças em instantes.');
-                    document.getElementById('admin-modal').remove();
-                    // Recarrega o menu do servidor para confirmar sincronização
-                    const freshRes = await fetch('products.json?nocache=' + Date.now());
-                    MENU = await freshRes.json();
-                    localStorage.setItem('cabral_menu_temp', JSON.stringify(MENU));
-                    renderProducts();
-                } else {
-                    const errData = await updateRes.json();
-                    alert('Erro ao salvar: ' + (errData.message || updateRes.status));
-                }
-            } catch (e) {
-                alert('Falha na conexão: ' + e.message);
-            }
+                const updateRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/products.json`, {
+                    method: 'PUT',
+                    headers: { 'Authorization': `token ${GITHUB_TOKEN}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: "Update products.json via Admin",
+                        content: btoa(unescape(encodeURIComponent(JSON.stringify(MENU, null, 2)))),
+                        sha: data.sha
+                    })
+                });
+                if (updateRes.ok) alert('✅ Salvo com sucesso!');
+                else alert('Erro ao salvar.');
+            } catch (e) { alert('Erro na conexão.'); }
             document.getElementById('admin-loading').classList.add('hidden');
         }
 
-        // ─── Upload de Imagem ─────────────────────────────────────────────────────
-        async function uploadImage(input, idx) {
-            const file = input.files[0];
-            if (!file || !GITHUB_TOKEN) return;
-            const reader = new FileReader();
-            reader.onload = async (e) => {
-                const base64 = e.target.result.split(',')[1];
-                const path = MENU[idx].img.split('?')[0];
-                document.getElementById('admin-loading').classList.remove('hidden');
-                try {
-                    const res = await fetch(
-                        'https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME + '/contents/' + path,
-                        { headers: { 'Authorization': 'token ' + GITHUB_TOKEN } }
-                    );
-                    const data = await res.json();
-                    await fetch(
-                        'https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME + '/contents/' + path,
-                        {
-                            method: 'PUT',
-                            headers: { 'Authorization': 'token ' + GITHUB_TOKEN },
-                            body: JSON.stringify({ message: 'Update image for ' + MENU[idx].name, content: base64, sha: data.sha })
-                        }
-                    );
-                    MENU[idx].img = path + '?t=' + Date.now();
-                    renderAdminTab(MENU[idx].cat);
-                    alert('Imagem enviada! Salve o site para confirmar.');
-                } catch (err) {
-                    alert('Erro ao subir imagem.');
-                }
-                document.getElementById('admin-loading').classList.add('hidden');
-            };
-            reader.readAsDataURL(file);
+        // ─── Utilidades ───────────────────────────────────────────────────────────
+        function toggleDarkMode(force = false) {
+            const isDark = force || !document.body.classList.contains('dark-mode');
+            document.body.classList.toggle('dark-mode', isDark);
+            document.getElementById('dark-icon').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('darkMode', isDark);
         }
 
-        // ─── PWA Install ──────────────────────────────────────────────────────────
-        let deferredPrompt;
-        const installBtn = document.getElementById('install-button');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installBtn.style.display = 'block';
-        });
-
-        async function installPWA() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') console.log('PWA instalado');
-                deferredPrompt = null;
-                installBtn.style.display = 'none';
+        function shareSite() {
+            if (navigator.share) {
+                navigator.share({ title: 'Cabral & Izaura', text: 'Confira o cardápio da Cabral & Izaura!', url: window.location.href });
+            } else {
+                alert('Link copiado: ' + window.location.href);
             }
         }
 
-        window.addEventListener('appinstalled', () => {
-            installBtn.style.display = 'none';
-            deferredPrompt = null;
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('install-button').classList.remove('hidden');
         });
 
-        // ─── Service Worker (sem auto-reload) ────────────────────────────────────
+        async function installPWA() {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') document.getElementById('install-button').classList.add('hidden');
+            deferredPrompt = null;
+        }
+
+        // SW v5
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js').then(reg => {
-                    console.log('SW registrado:', reg.scope);
-                }).catch(err => {
-                    console.log('SW falhou:', err);
-                });
+                navigator.serviceWorker.register('sw.js?v=5');
             });
         }
 
-        // ─── Start ────────────────────────────────────────────────────────────────
         init();
-
     </script>
 </body>
 </html>
