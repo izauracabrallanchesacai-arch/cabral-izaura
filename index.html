@@ -584,16 +584,16 @@
                     "img": "images/produtos/sukita.jpg",
                     "type": "simple"
           },
-          {
-                    "id": 33,
-                    "cat": "bebidas",
-                    "name": "Suco Natural 500ml",
-                    "price": 6,
-                    "desc": "Suco Natural de Acerola Produto da Casa.",
-                    "img": "images/produtos/suco-500ml.jpg",
-                    "type": "simple"
-          }
-];
+	          {
+	                    "id": 33,
+	                    "cat": "bebidas",
+	                    "name": "Suco de Acerola",
+	                    "price": 6,
+	                    "desc": "Suco Natural de Acerola Produto da Casa.",
+	                    "img": "images/produtos/suco-acerola.jpg",
+	                    "type": "simple"
+	          }
+	];
         let currentCategory = 'lanches';
         let audioPlayed = false;
 
@@ -606,16 +606,14 @@
                     renderProducts();
                 }
 
-                // Carrega do servidor com bypass de cache agressivo
-                const res = await fetch(`products.json?nocache=${Math.random()}`);
-                const serverMenu = await res.json();
-                
-                // Só atualiza se for diferente ou se não houver local
-                if (JSON.stringify(serverMenu) !== JSON.stringify(MENU)) {
+	                // Carrega do servidor com bypass de cache agressivo
+	                const res = await fetch(`products.json?nocache=${Math.random()}`);
+	                const serverMenu = await res.json();
+	                
+	                // Forçar atualização do MENU com os dados do servidor
                     MENU = serverMenu;
                     localStorage.setItem('cabral_menu_temp', JSON.stringify(MENU));
                     renderProducts();
-                }
                 
                 updateStatus();
                 setInterval(updateStatus, 30000);
@@ -704,13 +702,13 @@
             renderProducts();
         }
 
-        document.body.addEventListener('click', () => {
-            if (!audioPlayed) {
-                const audio = document.getElementById('welcome-audio');
-                audio.volume = 0.5; // Volume mais baixo e agradável
-                audio.play().then(() => audioPlayed = true).catch(e => console.log(e));
-            }
-        }, { once: false });
+	        document.body.addEventListener('click', () => {
+	            if (!audioPlayed) {
+	                const audio = document.getElementById('welcome-audio');
+	                audio.volume = 0.3; // Volume reduzido conforme solicitado
+	                audio.play().then(() => audioPlayed = true).catch(e => console.log(e));
+	            }
+	        }, { once: true });
 
         function openLogin() {
             const pass = prompt("Senha Administrativa:");
