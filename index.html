@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#da291c">
+    <meta name="description" content="Cabral & Izaura - Lanches e Açaí desde 1998">
+    <title>Cabral & Izaura - Lanches e Açaí</title>
+    <link rel="manifest" href="manifest.json?v=8">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>🍔</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: #f5f5f5; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        
+        /* Header */
+        header { background: linear-gradient(135deg, #da291c 0%, #a01f14 100%); color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: center; }
+        header h1 { font-size: 28px; margin: 10px 0; }
+        header p { font-size: 14px; opacity: 0.9; }
+        
+        /* Status */
+        .status { background: #4CAF50; color: white; padding: 12px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-weight: bold; }
+        .status.closed { background: #f44336; }
+        
+        /* Categorias */
+        .categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 30px; }
+        .category-btn { padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.3s; background: #e0e0e0; color: #333; }
+        .category-btn.active { background: #da291c; color: white; transform: scale(1.05); }
+        .category-btn:hover { transform: scale(1.02); }
+        
+        /* Produtos */
+        .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+        .product { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.2s; }
+        .product:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
+        .product img { width: 100%; height: 150px; object-fit: cover; }
+        .product-info { padding: 15px; }
+        .product-name { font-weight: bold; font-size: 16px; margin-bottom: 5px; }
+        .product-desc { font-size: 12px; color: #666; margin-bottom: 10px; }
+        .product-price { color: #4CAF50; font-weight: bold; font-size: 18px; }
+        
+        /* Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; border-radius: 12px; padding: 30px; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto; }
+        .modal-close { float: right; font-size: 24px; cursor: pointer; font-weight: bold; }
+        .modal-title { font-size: 24px; font-weight: bold; margin: 20px 0; }
+        .modal-price { color: #4CAF50; font-size: 22px; font-weight: bold; margin: 10px 0; }
+        .modal-desc { color: #666; margin-bottom: 20px; }
+        
+        /* Adicionais */
+        .adicionais-section { margin: 20px 0; }
+        .adicionais-title { font-weight: bold; margin-bottom: 10px; }
+        .adicional { display: flex; align-items: center; margin: 8px 0; }
+        .adicional input { margin-right: 10px; }
+        .adicional-price { color: #4CAF50; margin-left: auto; font-size: 12px; }
+        
+        /* Botões */
+        .btn { padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+        .btn-primary { background: #4CAF50; color: white; }
+        .btn-primary:hover { background: #45a049; }
+        .btn-secondary { background: #da291c; color: white; }
+        .btn-secondary:hover { background: #a01f14; }
+        
+        /* Carrinho */
+        .cart-drawer { display: none; position: fixed; right: 0; top: 0; width: 100%; max-width: 400px; height: 100%; background: white; box-shadow: -4px 0 12px rgba(0,0,0,0.2); z-index: 999; overflow-y: auto; }
+        .cart-drawer.active { display: flex; flex-direction: column; }
+        .cart-header { background: #da291c; color: white; padding: 20px; font-size: 20px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+        .cart-items { flex: 1; padding: 20px; overflow-y: auto; }
+        .cart-item { display: flex; gap: 10px; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
+        .cart-item-img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; }
+        .cart-item-info { flex: 1; }
+        .cart-item-name { font-weight: bold; font-size: 14px; }
+        .cart-item-price { color: #4CAF50; font-weight: bold; }
+        .cart-item-qty { display: flex; gap: 5px; align-items: center; margin-top: 5px; }
+        .cart-footer { padding: 20px; border-top: 2px solid #eee; }
+        .cart-total { font-size: 20px; font-weight: bold; margin-bottom: 15px; }
+        .cart-total-value { color: #4CAF50; }
+        
+        /* Footer */
+        footer { background: #333; color: white; padding: 20px; text-align: center; margin-top: 40px; border-radius: 10px; }
+        footer a { color: #4CAF50; text-decoration: none; }
+        
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .products { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+            .cart-drawer { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍔 Cabral & Izaura 🍇</h1>
+            <p>Lanches & Açaí — Desde 1998</p>
+            <p style="font-style: italic; margin-top: 10px;">"Fiel é Deus"</p>
+        </header>
+        
+        <div class="status" id="status">Aberto Agora</div>
+        
+        <div class="categories" id="categories"></div>
+        
+        <div class="products" id="products"></div>
+    </div>
+    
+    <!-- Modal de Produto -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <img id="modalImg" style="width: 100%; border-radius: 8px; margin-bottom: 15px;">
+            <h2 class="modal-title" id="modalName"></h2>
+            <p class="modal-desc" id="modalDesc"></p>
+            <p class="modal-price">R$ <span id="modalPrice"></span></p>
+            
+            <div class="adicionais-section" id="adicionaisContainer" style="display: none;">
+                <div class="adicionais-title">Adicionais Grátis:</div>
+                <div id="adicionaisGratis"></div>
+                
+                <div class="adicionais-title" style="margin-top: 15px;">Adicionais Pagos:</div>
+                <div id="adicionaisPagos"></div>
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn btn-primary" style="flex: 1;" onclick="addToCart()">Adicionar ao Carrinho</button>
+                <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Carrinho -->
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            Seu Pedido
+            <span onclick="closeCart()" style="cursor: pointer; font-size: 24px;">&times;</span>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                Total: <span class="cart-total-value" id="cartTotal">R$ 0.00</span>
+            </div>
+            <button class="btn btn-primary" style="width: 100%; padding: 15px;" onclick="checkout()">
+                📱 Finalizar no WhatsApp
+            </button>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <p><strong>Horário de Funcionamento:</strong></p>
+        <p>Seg-Qui: 18:30-22:30 | Sex-Sáb: 18:00-00:30 | Dom: 18:00-00:00</p>
+        <p style="margin-top: 15px;"><strong>Contato:</strong> <a href="tel:+5521991238516">(21) 99123-8516</a></p>
+        <p style="margin-top: 15px;">© 2026 Cabral & Izaura. Todos os direitos reservados.</p>
+    </footer>
+    
+    <script>
+        const CACHE_ID = 'cabral-v8-' + Date.now();
+        const WHATSAPP = '5521991238516';
+        let cart = [];
+        let currentProduct = null;
+        let products = [];
+        
+        // Registrar Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js?v=8').catch(err => console.log('SW error:', err));
+        }
+        
+        // Carregar produtos
+        async function loadProducts() {
+            try {
+                const res = await fetch('products.json?v=' + CACHE_ID);
+                products = await res.json();
+                renderCategories();
+                renderProducts('lanches');
+            } catch (err) {
+                console.error('Erro ao carregar produtos:', err);
+            }
+        }
+        
+        // Renderizar categorias
+        function renderCategories() {
+            const categories = ['lanches', 'acai', 'porcoes', 'bebidas'];
+            const container = document.getElementById('categories');
+            container.innerHTML = categories.map(cat => 
+                `<button class="category-btn ${cat === 'lanches' ? 'active' : ''}" onclick="renderProducts('${cat}')">${getCategoryIcon(cat)} ${getCategoryName(cat)}</button>`
+            ).join('');
+        }
+        
+        function getCategoryIcon(cat) {
+            const icons = { lanches: '🍔', acai: '🍇', porcoes: '🍟', bebidas: '🥤' };
+            return icons[cat] || '📦';
+        }
+        
+        function getCategoryName(cat) {
+            const names = { lanches: 'Lanches', acai: 'Açaí', porcoes: 'Porções', bebidas: 'Bebidas' };
+            return names[cat] || cat;
+        }
+        
+        // Renderizar produtos
+        function renderProducts(category) {
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const filtered = products.filter(p => p.categoria === category);
+            const container = document.getElementById('products');
+            container.innerHTML = filtered.map(p => `
+                <div class="product" onclick="openModal(${p.id})">
+                    <img src="${p.imagem}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 150%22%3E%3Crect fill=%22%23ddd%22 width=%22200%22 height=%22150%22/%3E%3C/svg%3E'">
+                    <div class="product-info">
+                        <div class="product-name">${p.nome}</div>
+                        <div class="product-desc">${p.descricao}</div>
+                        <div class="product-price">R$ ${p.preco.toFixed(2)}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Abrir modal
+        function openModal(id) {
+            currentProduct = products.find(p => p.id === id);
+            if (!currentProduct) return;
+            
+            document.getElementById('modalImg').src = currentProduct.imagem;
+            document.getElementById('modalName').textContent = currentProduct.nome;
+            document.getElementById('modalDesc').textContent = currentProduct.descricao;
+            document.getElementById('modalPrice').textContent = currentProduct.preco.toFixed(2);
+            
+            // Renderizar adicionais se existirem
+            const adicionaisContainer = document.getElementById('adicionaisContainer');
+            const gratis = currentProduct.adicionais?.gratis || [];
+            const pagos = currentProduct.adicionais?.pagos || [];
+            
+            if (gratis.length > 0 || pagos.length > 0) {
+                adicionaisContainer.style.display = 'block';
+                document.getElementById('adicionaisGratis').innerHTML = gratis.map((a, i) => 
+                    `<label class="adicional"><input type="checkbox" value="${a}" data-price="0"> ${a}</label>`
+                ).join('');
+                document.getElementById('adicionaisPagos').innerHTML = pagos.map((a, i) => 
+                    `<label class="adicional"><input type="checkbox" value="${a}" data-price="${a.preco || 0}"> ${a.nome || a} <span class="adicional-price">+R$ ${(a.preco || 0).toFixed(2)}</span></label>`
+                ).join('');
+            } else {
+                adicionaisContainer.style.display = 'none';
+            }
+            
+            document.getElementById('productModal').classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('productModal').classList.remove('active');
+        }
+        
+        // Adicionar ao carrinho
+        function addToCart() {
+            if (!currentProduct) return;
+            
+            const adicionais = [];
+            let adicionalPrice = 0;
+            
+            document.querySelectorAll('#adicionaisContainer input:checked').forEach(input => {
+                adicionais.push(input.value);
+                adicionalPrice += parseFloat(input.dataset.price || 0);
+            });
+            
+            cart.push({
+                id: currentProduct.id,
+                nome: currentProduct.nome,
+                preco: currentProduct.preco,
+                imagem: currentProduct.imagem,
+                adicionais: adicionais,
+                adicionalPrice: adicionalPrice,
+                qty: 1
+            });
+            
+            updateCart();
+            closeModal();
+            alert('✅ Adicionado ao carrinho!');
+        }
+        
+        // Atualizar carrinho
+        function updateCart() {
+            const total = cart.reduce((sum, item) => sum + (item.preco + item.adicionalPrice) * item.qty, 0);
+            document.getElementById('cartTotal').textContent = 'R$ ' + total.toFixed(2);
+            
+            document.getElementById('cartItems').innerHTML = cart.map((item, idx) => `
+                <div class="cart-item">
+                    <img src="${item.imagem}" class="cart-item-img">
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.nome}</div>
+                        <div class="cart-item-price">R$ ${(item.preco + item.adicionalPrice).toFixed(2)}</div>
+                        ${item.adicionais.length > 0 ? `<small style="color: #666;">${item.adicionais.join(', ')}</small>` : ''}
+                        <div class="cart-item-qty">
+                            <button onclick="cart[${idx}].qty--; updateCart();" style="width: 24px; height: 24px; border: none; border-radius: 4px; cursor: pointer;">−</button>
+                            <span>${item.qty}</span>
+                            <button onclick="cart[${idx}].qty++; updateCart();" style="width: 24px; height: 24px; border: none; border-radius: 4px; cursor: pointer;">+</button>
+                            <button onclick="cart.splice(${idx}, 1); updateCart();" style="margin-left: auto; background: #f44336; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">Remover</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Abrir/Fechar carrinho
+        function openCart() {
+            document.getElementById('cartDrawer').classList.add('active');
+        }
+        
+        function closeCart() {
+            document.getElementById('cartDrawer').classList.remove('active');
+        }
+        
+        // Checkout
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Carrinho vazio!');
+                return;
+            }
+            
+            let msg = '🛒 *Pedido Cabral & Izaura*\n\n';
+            let total = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = (item.preco + item.adicionalPrice) * item.qty;
+                total += itemTotal;
+                msg += `${item.nome} (${item.qty}x) - R$ ${itemTotal.toFixed(2)}\n`;
+                if (item.adicionais.length > 0) {
+                    msg += `  Adicionais: ${item.adicionais.join(', ')}\n`;
+                }
+            });
+            
+            msg += `\n*Total: R$ ${total.toFixed(2)}*`;
+            
+            const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+            window.open(url, '_blank');
+        }
+        
+        // Inicializar
+        loadProducts();
+        
+        // Botão flutuante do carrinho
+        document.addEventListener('DOMContentLoaded', () => {
+            const cartBtn = document.createElement('button');
+            cartBtn.innerHTML = '🛒 <span id="cartCount">0</span>';
+            cartBtn.style.cssText = 'position: fixed; bottom: 20px; right: 20px; padding: 15px 20px; background: #da291c; color: white; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.3);';
+            cartBtn.onclick = openCart;
+            document.body.appendChild(cartBtn);
+            
+            // Atualizar contador
+            setInterval(() => {
+                document.getElementById('cartCount').textContent = cart.length;
+            }, 100);
+        });
+    </script>
+</body>
+</html>
