@@ -1,791 +1,896 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
+<html lang="pt-br"><head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cabral &amp; Izaura Lanches e Açaí</title>
+    
+    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#da291c">
-    <meta name="description" content="Cabral & Izaura - Lanches e Açaí desde 1998">
-    <title>Cabral & Izaura - Lanches e Açaí</title>
-    <link rel="manifest" href="manifest.json?v=9">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>🍔</text></svg>">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="images/logo.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Poppins:wght@300;400;600;700&display=swap');
         
         :root {
-            --primary-color: #da291c;
-            --primary-dark: #a01f14;
-            --success-color: #4CAF50;
-            --text-dark: #333;
-            --text-light: #666;
-            --bg-light: #f5f5f5;
-            --bg-dark: #1a1a1a;
-            --border-color: #eee;
+            --primary: #ffc72c;
+            --secondary: #da291c;
+            --accent: #5d0373;
+            --dark: #1a1a1a;
+            --bg: #f4f4f4;
+            --card-bg: #ffffff;
+            --text-main: #1a1a1a;
+            --text-muted: #666666;
         }
-        
+
+        .dark-mode {
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --text-main: #f4f4f4;
+            --text-muted: #aaaaaa;
+        }
+
         body {
-            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--bg-light);
-            color: var(--text-dark);
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            -webkit-tap-highlight-color: transparent;
+            scroll-behavior: smooth;
             transition: background-color 0.3s, color 0.3s;
         }
+
+        .font-brand { font-family: 'Montserrat', sans-serif; }
+
+        /* Animações */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
         
-        body.dark-mode {
-            background: var(--bg-dark);
-            color: #f5f5f5;
-        }
-        
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        
-        /* Header */
-        header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            text-align: center;
+        @keyframes pulse-small { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        .pulse { animation: pulse-small 2s infinite; }
+
+        /* Banner Hero Parallax-ish */
+        .hero-banner {
             position: relative;
-        }
-        
-        header h1 { font-size: 28px; margin: 10px 0; }
-        header p { font-size: 14px; opacity: 0.9; }
-        
-        /* Top Bar */
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            gap: 10px;
-        }
-        
-        /* Theme Toggle Switch */
-        .theme-toggle {
-            display: flex;
-            align-items: center;
-            background: white;
-            border-radius: 50px;
-            padding: 3px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 60px;
-            height: 30px;
-        }
-        
-        body.dark-mode .theme-toggle {
-            background: #333;
-        }
-        
-        .theme-toggle-circle {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+            height: 350px;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.3s ease;
-            font-size: 14px;
-        }
-        
-        body.dark-mode .theme-toggle-circle {
-            transform: translateX(30px);
-            background: linear-gradient(135deg, #333 0%, #1a1a1a 100%);
-        }
-        
-        /* PWA Install Button */
-        #install-button {
-            display: none;
-            padding: 10px 16px;
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            text-align: center;
             color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-            font-size: 14px;
         }
-        
-        #install-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(218, 41, 28, 0.3);
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('banner-capa.png') center/cover no-repeat;
+            z-index: -1;
+            filter: brightness(0.7);
+            transform: scale(1.1);
+            transition: transform 0.5s ease-out;
         }
-        
-        #install-button.show {
+        .hero-banner:hover .hero-bg { transform: scale(1.15); }
+
+        /* App-like Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
             display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+            border-radius: 20px 20px 0 0;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 8px;
-        }
-        
-        /* Categorias */
-        .categories-section {
-            margin-bottom: 30px;
-        }
-        
-        .categories-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: var(--primary-color);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .categories {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-            margin-bottom: 30px;
-        }
-        
-        .category-btn {
-            padding: 14px 16px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--text-muted);
             transition: all 0.3s;
-            background: white;
-            color: var(--text-dark);
-            font-size: 14px;
         }
-        
-        body.dark-mode .category-btn {
-            background: #333;
-            border-color: #555;
-            color: #f5f5f5;
-        }
-        
-        .category-btn.active {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white;
-            border-color: var(--primary-color);
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(218, 41, 28, 0.3);
-        }
-        
-        .category-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        /* Produtos */
-        .products-section {
-            margin-bottom: 30px;
-        }
-        
-        .products-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: var(--primary-color);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .products {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        
-        @media (max-width: 768px) {
-            .products {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .products {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .product {
-            background: white;
-            border-radius: 12px;
+
+        .nav-item.active { color: var(--secondary); }
+        .nav-item i { font-size: 1.4rem; margin-bottom: 2px; }
+
+        /* Product Cards */
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 22px;
             overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .product-card:active { transform: scale(0.97); }
+
+        .category-btn {
+            white-space: nowrap;
             transition: all 0.3s;
             border: 2px solid transparent;
         }
-        
-        body.dark-mode .product {
-            background: #333;
-            color: #f5f5f5;
-        }
-        
-        .product:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
-            border-color: var(--primary-color);
-        }
-        
-        .product img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
-        
-        .product-info {
-            padding: 16px;
-        }
-        
-        .product-name {
-            font-weight: bold;
-            font-size: 16px;
-            margin-bottom: 6px;
-        }
-        
-        .product-desc {
-            font-size: 13px;
-            color: var(--text-light);
-            margin-bottom: 10px;
-            line-height: 1.4;
-        }
-        
-        body.dark-mode .product-desc {
-            color: #aaa;
-        }
-        
-        .product-price {
-            color: var(--success-color);
-            font-weight: bold;
-            font-size: 18px;
-        }
-        
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .modal.active { display: flex; }
-        
-        .modal-content {
-            background: white;
-            border-radius: 16px;
-            padding: 30px;
-            max-width: 500px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        
-        body.dark-mode .modal-content {
-            background: #333;
-            color: #f5f5f5;
-        }
-        
-        .modal-close {
-            float: right;
-            font-size: 28px;
-            cursor: pointer;
-            font-weight: bold;
-            color: var(--primary-color);
-            transition: all 0.3s;
-        }
-        
-        .modal-close:hover {
-            transform: scale(1.2);
-        }
-        
-        .modal-title { font-size: 24px; font-weight: bold; margin: 20px 0; }
-        .modal-price { color: var(--success-color); font-size: 22px; font-weight: bold; margin: 10px 0; }
-        .modal-desc { color: var(--text-light); margin-bottom: 20px; }
-        
-        body.dark-mode .modal-desc {
-            color: #aaa;
-        }
-        
-        /* Adicionais */
-        .adicionais-section { margin: 20px 0; }
-        .adicionais-title { font-weight: bold; margin-bottom: 10px; font-size: 14px; text-transform: uppercase; }
-        .adicional {
-            display: flex;
-            align-items: center;
-            margin: 10px 0;
-            padding: 8px;
-            border-radius: 6px;
-            background: #f9f9f9;
-        }
-        
-        body.dark-mode .adicional {
-            background: #444;
-        }
-        
-        .adicional input { margin-right: 10px; cursor: pointer; }
-        .adicional-price { color: var(--success-color); margin-left: auto; font-size: 12px; font-weight: bold; }
-        
-        /* Botões */
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-            font-size: 14px;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, var(--success-color), #45a049);
+        .category-btn.active {
+            background-color: var(--secondary);
             color: white;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
-        }
-        
-        .btn-secondary {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(218, 41, 28, 0.3);
         }
-        
-        /* Carrinho */
-        .cart-drawer {
-            display: none;
+
+        /* Status Badge */
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .status-open { background: #dcfce7; color: #166534; }
+        .status-closed { background: #fee2e2; color: #991b1b; }
+        .status-extra { background: #fef9c3; color: #854d0e; }
+
+        /* Modal Styles */
+        .modal {
             position: fixed;
-            right: 0;
-            top: 0;
-            width: 100%;
-            max-width: 400px;
-            height: 100%;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: var(--card-bg);
+            width: 90%;
+            max-width: 500px;
+            max-height: 85vh;
+            border-radius: 30px;
+            overflow: hidden;
+            display: flex;
+            flex-col;
+            animation: slideUp 0.3s ease-out;
+        }
+        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* Custom Scrollbar */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Dark Mode Toggle */
+        .toggle-switch {
+            width: 50px;
+            height: 26px;
+            background: #ccc;
+            border-radius: 13px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
             background: white;
-            box-shadow: -4px 0 12px rgba(0,0,0,0.2);
-            z-index: 999;
-            overflow-y: auto;
-            flex-direction: column;
+            border-radius: 50%;
+            transition: transform 0.3s;
         }
-        
-        body.dark-mode .cart-drawer {
-            background: #333;
-            color: #f5f5f5;
-        }
-        
-        .cart-drawer.active { display: flex; }
-        
-        .cart-header {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white;
-            padding: 20px;
-            font-size: 20px;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .cart-items { flex: 1; padding: 20px; overflow-y: auto; }
-        
-        .cart-item {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        body.dark-mode .cart-item {
-            border-bottom-color: #555;
-        }
-        
-        .cart-item-img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; }
-        .cart-item-info { flex: 1; }
-        .cart-item-name { font-weight: bold; font-size: 14px; }
-        .cart-item-price { color: var(--success-color); font-weight: bold; }
-        .cart-item-qty {
-            display: flex;
-            gap: 5px;
-            align-items: center;
-            margin-top: 5px;
-        }
-        
-        .cart-footer {
-            padding: 20px;
-            border-top: 2px solid var(--border-color);
-        }
-        
-        body.dark-mode .cart-footer {
-            border-top-color: #555;
-        }
-        
-        .cart-total { font-size: 18px; font-weight: bold; margin-bottom: 15px; }
-        .cart-total-value { color: var(--success-color); }
-        
-        /* Footer */
-        footer {
-            background: #333;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            margin-top: 40px;
-            border-radius: 10px;
-        }
-        
-        footer a { color: var(--success-color); text-decoration: none; }
-        
-        /* Responsivo */
-        @media (max-width: 768px) {
-            .cart-drawer { max-width: 100%; }
-            header h1 { font-size: 24px; }
-            .categories { grid-template-columns: repeat(2, 1fr); }
-        }
+        .dark-mode .toggle-switch { background: var(--accent); }
+        .dark-mode .toggle-switch::after { transform: translateX(24px); }
     </style>
-</head>
-<body>
-    <div class="container">
-        <div class="top-bar">
-            <div style="flex: 1;"></div>
-            <div class="theme-toggle" onclick="toggleTheme()" title="Alternar tema claro/escuro">
-                <div class="theme-toggle-circle">☀️</div>
-            </div>
-            <button id="install-button" onclick="installApp()" title="Instalar aplicativo">
-                ⬇️ Instalar
-            </button>
-        </div>
-        
-        <header>
-            <h1>🍔 Cabral & Izaura 🍇</h1>
-            <p style="font-style: italic; margin-top: 10px;">"Fiel é Deus"</p>
-        </header>
-        
-        <div class="categories-section">
-            <div class="categories-title">Categorias</div>
-            <div class="categories" id="categories"></div>
-        </div>
-        
-        <div class="products-section">
-            <div class="products-title" id="productsTitle">Lanches</div>
-            <div class="products" id="products"></div>
-        </div>
-    </div>
-    
-    <!-- Modal de Produto -->
-    <div class="modal" id="productModal">
-        <div class="modal-content">
-            <span class="modal-close" onclick="closeModal()">&times;</span>
-            <img id="modalImg" style="width: 100%; border-radius: 8px; margin-bottom: 15px;">
-            <h2 class="modal-title" id="modalName"></h2>
-            <p class="modal-desc" id="modalDesc"></p>
-            <p class="modal-price">R$ <span id="modalPrice"></span></p>
-            
-            <div class="adicionais-section" id="adicionaisContainer" style="display: none;">
-                <div class="adicionais-title">Adicionais Grátis:</div>
-                <div id="adicionaisGratis"></div>
-                
-                <div class="adicionais-title" style="margin-top: 15px;">Adicionais Pagos:</div>
-                <div id="adicionaisPagos"></div>
-            </div>
-            
-            <div style="display: flex; gap: 10px; margin-top: 20px;">
-                <button class="btn btn-primary" style="flex: 1;" onclick="addToCart()">Adicionar ao Carrinho</button>
-                <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Carrinho -->
-    <div class="cart-drawer" id="cartDrawer">
-        <div class="cart-header">
-            Seu Pedido
-            <span onclick="closeCart()" style="cursor: pointer; font-size: 24px;">&times;</span>
-        </div>
-        <div class="cart-items" id="cartItems"></div>
-        <div class="cart-footer">
-            <div class="cart-total">
-                Total: <span class="cart-total-value" id="cartTotal">R$ 0.00</span>
-            </div>
-            <button class="btn btn-primary" style="width: 100%; padding: 15px;" onclick="checkout()">
-                📱 Finalizar no WhatsApp
-            </button>
-        </div>
-    </div>
-    
-    <!-- Footer -->
-    <footer>
-        <p><strong>Horário de Funcionamento:</strong></p>
-        <p>Seg-Qui: 18:30-22:30 | Sex-Sáb: 18:00-00:30 | Dom: 18:00-00:00</p>
-        <p style="margin-top: 15px;"><strong>Contato:</strong> <a href="tel:+5521991238516">(21) 99123-8516</a></p>
-        <p style="margin-top: 15px;">© 2026 Cabral & Izaura. Todos os direitos reservados.</p>
-    </footer>
-    
-    <!-- Audio de Boas-vindas (oculto) -->
-    <audio id="welcomeAudio" style="display: none;"></audio>
-    
-    <script>
-        const CACHE_ID = 'cabral-v9-' + Date.now();
-        const WHATSAPP = '5521991238516';
-        let cart = [];
-        let currentProduct = null;
-        let products = [];
-        let deferredPrompt = null;
-        let welcomeAudioPlayed = false;
-        
-        // Registrar Service Worker
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js?v=9').catch(err => console.log('SW error:', err));
-        }
-        
-        // PWA Install
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            document.getElementById('install-button').classList.add('show');
-        });
-        
-        function installApp() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('App instalado');
-                    }
-                    deferredPrompt = null;
-                    document.getElementById('install-button').classList.remove('show');
-                });
-            }
-        }
-        
-        // Tema Claro/Escuro
-        function initTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            if (savedTheme === 'dark') {
-                document.body.classList.add('dark-mode');
-            }
-        }
-        
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-            const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-            localStorage.setItem('theme', theme);
-        }
-        
-        // Áudio de Boas-vindas
-        function playWelcomeAudio() {
-            if (welcomeAudioPlayed) return;
-            
-            const audio = document.getElementById('welcomeAudio');
-            audio.src = 'https://voca.ro/1ar5AnKo0qus';
-            audio.volume = 0.35;
-            audio.play().then(() => {
-                welcomeAudioPlayed = true;
-                localStorage.setItem('welcomeAudioPlayed', 'true');
-            }).catch(err => console.log('Erro ao reproduzir áudio:', err));
-        }
-        
-        // Verificar se áudio já foi reproduzido
-        function checkWelcomeAudio() {
-            welcomeAudioPlayed = localStorage.getItem('welcomeAudioPlayed') === 'true';
-        }
-        
-        // Carregar produtos
-        async function loadProducts() {
-            try {
-                const res = await fetch('products.json?v=' + CACHE_ID);
-                products = await res.json();
-                renderCategories();
-                renderProducts('lanches');
-            } catch (err) {
-                console.error('Erro ao carregar produtos:', err);
-            }
-        }
-        
-        // Renderizar categorias
-        function renderCategories() {
-            const categories = ['lanches', 'acai', 'palha-italiana', 'porcoes', 'bebidas'];
-            const container = document.getElementById('categories');
-            container.innerHTML = categories.map(cat => 
-                `<button class="category-btn ${cat === 'lanches' ? 'active' : ''}" onclick="renderProducts('${cat}')">${getCategoryIcon(cat)} ${getCategoryName(cat)}</button>`
-            ).join('');
-        }
-        
-        function getCategoryIcon(cat) {
-            const icons = {
-                lanches: '🍔',
-                acai: '🍇',
-                'palha-italiana': '🍰',
-                porcoes: '🍟',
-                bebidas: '🥤'
-            };
-            return icons[cat] || '📦';
-        }
-        
-        function getCategoryName(cat) {
-            const names = {
-                lanches: 'Lanches',
-                acai: 'Açaí',
-                'palha-italiana': 'Palha Italiana',
-                porcoes: 'Porções',
-                bebidas: 'Bebidas'
-            };
-            return names[cat] || cat;
-        }
-        
-        // Renderizar produtos
-        function renderProducts(category) {
-            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            document.getElementById('productsTitle').textContent = getCategoryName(category);
-            
-            const filtered = products.filter(p => p.categoria === category);
-            const container = document.getElementById('products');
-            container.innerHTML = filtered.map(p => `
-                <div class="product" onclick="openModal(${p.id})">
-                    <img src="${p.imagem}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 150%22%3E%3Crect fill=%22%23ddd%22 width=%22200%22 height=%22150%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2220%22 text-anchor=%22middle%22 dy=%22.3em%22%3E${getCategoryIcon(category)}%3C/text%3E%3C/svg%3E'">
-                    <div class="product-info">
-                        <div class="product-name">${p.nome}</div>
-                        <div class="product-desc">${p.descricao}</div>
-                        <div class="product-price">R$ ${p.preco.toFixed(2)}</div>
-                    </div>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.-right-2{right:-0.5rem}.-top-2{top:-0.5rem}.z-10{z-index:10}.z-20{z-index:20}.z-\[5000\]{z-index:5000}.mx-auto{margin-left:auto;margin-right:auto}.-mt-8{margin-top:-2rem}.mb-1{margin-bottom:0.25rem}.mb-2{margin-bottom:0.5rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.mr-1{margin-right:0.25rem}.mr-2{margin-right:0.5rem}.mt-1{margin-top:0.25rem}.mt-12{margin-top:3rem}.mt-4{margin-top:1rem}.mt-2{margin-top:0.5rem}.line-clamp-2{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}.inline-block{display:inline-block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-12{height:3rem}.h-24{height:6rem}.h-40{height:10rem}.h-52{height:13rem}.h-6{height:1.5rem}.h-\[80vh\]{height:80vh}.h-10{height:2.5rem}.h-20{height:5rem}.h-full{height:100%}.w-12{width:3rem}.w-24{width:6rem}.w-6{width:1.5rem}.w-full{width:100%}.w-10{width:2.5rem}.w-20{width:5rem}.max-w-2xl{max-width:42rem}.max-w-4xl{max-width:56rem}.flex-1{flex:1 1 0%}.flex-shrink-0{flex-shrink:0}@keyframes spin{to{transform:rotate(360deg)}}.animate-spin{animation:spin 1s linear infinite}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.gap-8{gap:2rem}.space-y-12 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(3rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(3rem * var(--tw-space-y-reverse))}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.overflow-x-auto{overflow-x:auto}.overflow-y-auto{overflow-y:auto}.whitespace-nowrap{white-space:nowrap}.rounded-2xl{border-radius:1rem}.rounded-full{border-radius:9999px}.rounded-t-\[40px\]{border-top-left-radius:40px;border-top-right-radius:40px}.border{border-width:1px}.border-2{border-width:2px}.border-4{border-width:4px}.border-t{border-top-width:1px}.border-gray-100{--tw-border-opacity:1;border-color:rgb(243 244 246 / var(--tw-border-opacity, 1))}.border-gray-800{--tw-border-opacity:1;border-color:rgb(31 41 55 / var(--tw-border-opacity, 1))}.border-red-600{--tw-border-opacity:1;border-color:rgb(220 38 38 / var(--tw-border-opacity, 1))}.border-transparent{border-color:transparent}.border-white{--tw-border-opacity:1;border-color:rgb(255 255 255 / var(--tw-border-opacity, 1))}.border-t-white{--tw-border-opacity:1;border-top-color:rgb(255 255 255 / var(--tw-border-opacity, 1))}.bg-black\/80{background-color:rgb(0 0 0 / 0.8)}.bg-gray-50{--tw-bg-opacity:1;background-color:rgb(249 250 251 / var(--tw-bg-opacity, 1))}.bg-gray-900{--tw-bg-opacity:1;background-color:rgb(17 24 39 / var(--tw-bg-opacity, 1))}.bg-green-500{--tw-bg-opacity:1;background-color:rgb(34 197 94 / var(--tw-bg-opacity, 1))}.bg-red-600{--tw-bg-opacity:1;background-color:rgb(220 38 38 / var(--tw-bg-opacity, 1))}.bg-white\/20{background-color:rgb(255 255 255 / 0.2)}.bg-yellow-400{--tw-bg-opacity:1;background-color:rgb(250 204 21 / var(--tw-bg-opacity, 1))}.bg-gray-100{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity, 1))}.object-cover{object-fit:cover}.p-2{padding:0.5rem}.p-6{padding:1.5rem}.p-4{padding:1rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-1\.5{padding-top:0.375rem;padding-bottom:0.375rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.pb-12{padding-bottom:3rem}.pb-32{padding-bottom:8rem}.pb-6{padding-bottom:1.5rem}.pt-16{padding-top:4rem}.pt-8{padding-top:2rem}.text-center{text-align:center}.text-2xl{font-size:1.5rem;line-height:2rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-\[10px\]{font-size:10px}.text-\[8px\]{font-size:8px}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-black{font-weight:900}.font-bold{font-weight:700}.font-medium{font-weight:500}.uppercase{text-transform:uppercase}.leading-relaxed{line-height:1.625}.tracking-widest{letter-spacing:0.1em}.text-black{--tw-text-opacity:1;color:rgb(0 0 0 / var(--tw-text-opacity, 1))}.text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity, 1))}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128 / var(--tw-text-opacity, 1))}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity, 1))}.text-gray-700{--tw-text-opacity:1;color:rgb(55 65 81 / var(--tw-text-opacity, 1))}.text-green-500{--tw-text-opacity:1;color:rgb(34 197 94 / var(--tw-text-opacity, 1))}.text-green-600{--tw-text-opacity:1;color:rgb(22 163 74 / var(--tw-text-opacity, 1))}.text-red-500{--tw-text-opacity:1;color:rgb(239 68 68 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-yellow-400{--tw-text-opacity:1;color:rgb(250 204 21 / var(--tw-text-opacity, 1))}.opacity-90{opacity:0.9}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.drop-shadow-md{--tw-drop-shadow:drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.backdrop-blur-md{--tw-backdrop-blur:blur(12px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:text-gray-400:hover{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity, 1))}.active\:scale-90:active{--tw-scale-x:.9;--tw-scale-y:.9;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.active\:scale-95:active{--tw-scale-x:.95;--tw-scale-y:.95;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 768px){.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media (prefers-color-scheme: dark){.dark\:bg-gray-800{--tw-bg-opacity:1;background-color:rgb(31 41 55 / var(--tw-bg-opacity, 1))}}</style></head>
+<body class="no-scrollbar">
+
+    <!-- Hero Section -->
+    <section class="hero-banner">
+        <div class="hero-bg"></div>
+        <div class="relative z-10 px-6 animate-fade-in">
+            <div class="flex justify-between items-start mb-8">
+                <div id="store-status" style="display:none;"><span class="status-badge status-closed"><i class="fas fa-moon"></i> Fechado Agora</span></div>
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleDarkMode()" class="bg-white/20 backdrop-blur-md p-2 rounded-full text-white" data-manus_clickable="true" data-manus_click_id="1">
+                        <i class="fas fa-moon" id="dark-icon"></i>
+                    </button>
+                    <button id="install-button" onclick="installPWA()" class="bg-yellow-400 text-black px-4 py-1.5 rounded-full font-black text-xs shadow-lg" data-manus_clickable="true" data-manus_click_id="2">
+                        <i class="fas fa-download"></i> INSTALAR
+                    </button>
                 </div>
-            `).join('');
-        }
-        
-        // Abrir modal
-        function openModal(id) {
-            currentProduct = products.find(p => p.id === id);
-            if (!currentProduct) return;
+            </div>
             
-            document.getElementById('modalImg').src = currentProduct.imagem;
-            document.getElementById('modalName').textContent = currentProduct.nome;
-            document.getElementById('modalDesc').textContent = currentProduct.descricao;
-            document.getElementById('modalPrice').textContent = currentProduct.preco.toFixed(2);
-            
-            // Renderizar adicionais se existirem
-            const adicionaisContainer = document.getElementById('adicionaisContainer');
-            const gratis = currentProduct.adicionais?.gratis || [];
-            const pagos = currentProduct.adicionais?.pagos || [];
-            
-            if (gratis.length > 0 || pagos.length > 0) {
-                adicionaisContainer.style.display = 'block';
-                document.getElementById('adicionaisGratis').innerHTML = gratis.map((a, i) => 
-                    `<label class="adicional"><input type="checkbox" value="${a}" data-price="0"> ${a}</label>`
-                ).join('');
-                document.getElementById('adicionaisPagos').innerHTML = pagos.map((a, i) => 
-                    `<label class="adicional"><input type="checkbox" value="${a}" data-price="${a.preco || 0}"> ${a.nome || a} <span class="adicional-price">+R$ ${(a.preco || 0).toFixed(2)}</span></label>`
-                ).join('');
-            } else {
-                adicionaisContainer.style.display = 'none';
-            }
-            
-            document.getElementById('productModal').classList.add('active');
-        }
-        
-        function closeModal() {
-            document.getElementById('productModal').classList.remove('active');
-        }
-        
-        // Adicionar ao carrinho
-        function addToCart() {
-            if (!currentProduct) return;
-            
-            const adicionais = [];
-            let adicionalPrice = 0;
-            
-            document.querySelectorAll('#adicionaisContainer input:checked').forEach(input => {
-                adicionais.push(input.value);
-                adicionalPrice += parseFloat(input.dataset.price || 0);
-            });
-            
-            cart.push({
-                id: currentProduct.id,
-                nome: currentProduct.nome,
-                preco: currentProduct.preco,
-                imagem: currentProduct.imagem,
-                adicionais: adicionais,
-                adicionalPrice: adicionalPrice,
-                qty: 1
-            });
-            
-            updateCart();
-            closeModal();
-            alert('✅ Adicionado ao carrinho!');
-        }
-        
-        // Atualizar carrinho
-        function updateCart() {
-            const total = cart.reduce((sum, item) => sum + (item.preco + item.adicionalPrice) * item.qty, 0);
-            document.getElementById('cartTotal').textContent = 'R$ ' + total.toFixed(2);
-            
-            document.getElementById('cartItems').innerHTML = cart.map((item, idx) => `
-                <div class="cart-item">
-                    <img src="${item.imagem}" class="cart-item-img">
-                    <div class="cart-item-info">
-                        <div class="cart-item-name">${item.nome}</div>
-                        <div class="cart-item-price">R$ ${(item.preco + item.adicionalPrice).toFixed(2)}</div>
-                        ${item.adicionais.length > 0 ? `<small style="color: #999;">${item.adicionais.join(', ')}</small>` : ''}
-                        <div class="cart-item-qty">
-                            <button onclick="cart[${idx}].qty--; if(cart[${idx}].qty <= 0) cart.splice(${idx}, 1); updateCart();" style="width: 24px; height: 24px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; background: white;">−</button>
-                            <span>${item.qty}</span>
-                            <button onclick="cart[${idx}].qty++; updateCart();" style="width: 24px; height: 24px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; background: white;">+</button>
+            <img src="images/logo.png" alt="Logo" class="w-24 h-24 mx-auto mb-4 rounded-full border-4 border-white shadow-2xl pulse">
+            <h1 class="text-4xl font-black font-brand mb-1 drop-shadow-md">Cabral &amp; Izaura</h1>
+            <p class="text-sm font-medium opacity-90 drop-shadow-md mb-4" style="display:none;">Lanches &amp; Açaí — Desde 1998</p>
+            <div class="inline-block bg-white/20 backdrop-blur-md px-4 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">
+                "Fiel é Deus"
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <main class="max-w-4xl mx-auto px-4 -mt-8 relative z-20 pb-32">
+        <!-- Categories -->
+        <div class="flex gap-3 overflow-x-auto no-scrollbar pb-6">
+            <button onclick="filterCategory('lanches')" class="category-btn active bg-card-bg px-6 py-3 rounded-2xl font-bold shadow-sm border-2 border-transparent transition whitespace-nowrap" data-manus_clickable="true" data-manus_click_id="3">🍔 Lanches</button>
+            <button onclick="filterCategory('acai')" class="category-btn bg-card-bg px-6 py-3 rounded-2xl font-bold shadow-sm border-2 border-transparent transition whitespace-nowrap" data-manus_clickable="true" data-manus_click_id="4">🍇 Açaí</button>
+            <button onclick="filterCategory('palha-italiana')" class="category-btn bg-card-bg px-6 py-3 rounded-2xl font-bold shadow-sm border-2 border-transparent transition whitespace-nowrap" data-manus_clickable="true" data-manus_click_id="4b">🍰 Palha Italiana</button>
+            <button onclick="filterCategory('porcoes')" class="category-btn bg-card-bg px-6 py-3 rounded-2xl font-bold shadow-sm border-2 border-transparent transition whitespace-nowrap" data-manus_clickable="true" data-manus_click_id="5">🍟 Porções</button>
+            <button onclick="filterCategory('bebidas')" class="category-btn bg-card-bg px-6 py-3 rounded-2xl font-bold shadow-sm border-2 border-transparent transition whitespace-nowrap" data-manus_clickable="true" data-manus_click_id="6">🥤 Bebidas</button>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"><div class="product-card flex items-center p-4 gap-4 animate-fade-in" data-manus_clickable="true" data-manus_click_id="7">
+                    <div class="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 bg-gray-100">
+                        <img src="images/produtos/hamburguer-simples.jpg" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-sm">Hambúrguer</h3>
+                        <p class="text-[10px] text-muted line-clamp-2 mt-1">Pão com gergelim, carne bovina</p>
+                        <p class="text-green-600 font-black mt-2 text-sm">R$ 9.00</p>
+                    </div>
+                    <div class="bg-gray-100 text-gray-400 w-10 h-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div><div class="product-card flex items-center p-4 gap-4 animate-fade-in" data-manus_clickable="true" data-manus_click_id="8">
+                    <div class="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 bg-gray-100">
+                        <img src="images/produtos/hamburguer-com-ovo.jpg" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-sm">Hambúrguer com Ovo</h3>
+                        <p class="text-[10px] text-muted line-clamp-2 mt-1">Pão com gergelim, carne bovina, ovo frito</p>
+                        <p class="text-green-600 font-black mt-2 text-sm">R$ 12.00</p>
+                    </div>
+                    <div class="bg-gray-100 text-gray-400 w-10 h-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div><div class="product-card flex items-center p-4 gap-4 animate-fade-in" data-manus_clickable="true" data-manus_click_id="9">
+                    <div class="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 bg-gray-100">
+                        <img src="images/produtos/x-burguer.jpg" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-sm">X-Burguer</h3>
+                        <p class="text-[10px] text-muted line-clamp-2 mt-1">Pão com gergelim, carne, queijo, presunto</p>
+                        <p class="text-green-600 font-black mt-2 text-sm">R$ 12.00</p>
+                    </div>
+                    <div class="bg-gray-100 text-gray-400 w-10 h-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div><div class="product-card flex items-center p-4 gap-4 animate-fade-in" data-manus_clickable="true" data-manus_click_id="10">
+                    <div class="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 bg-gray-100">
+                        <img src="images/produtos/x-egg-burguer.jpg" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-sm">X-Eggburguer</h3>
+                        <p class="text-[10px] text-muted line-clamp-2 mt-1">Pão com gergelim, carne, queijo, presunto, ovo</p>
+                        <p class="text-green-600 font-black mt-2 text-sm">R$ 15.00</p>
+                    </div>
+                    <div class="bg-gray-100 text-gray-400 w-10 h-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div><div class="product-card flex items-center p-4 gap-4 animate-fade-in" data-manus_clickable="true" data-manus_click_id="11">
+                    <div class="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 bg-gray-100">
+                        <img src="images/produtos/x-calabresa.jpg" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-sm">X-Calabresa</h3>
+                        <p class="text-[10px] text-muted line-clamp-2 mt-1">Pão com gergelim, carne, queijo, presunto, calabresa acebolada</p>
+                        <p class="text-green-600 font-black mt-2 text-sm">R$ 15.00</p>
+                    </div>
+                    <div class="bg-gray-100 text-gray-400 w-10 h-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div><div class="product-card flex items-center p-4 gap-4 animate-fade-in" data-manus_clickable="true" data-manus_click_id="12">
+                    <div class="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 bg-gray-100">
+                        <img src="images/produtos/x-bacon.jpg" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-sm">X-Bacon</h3>
+                        <p class="text-[10px] text-muted line-clamp-2 mt-1">Pão com gergelim, carne, queijo, presunto, bacon crocante</p>
+                        <p class="text-green-600 font-black mt-2 text-sm">R$ 15.00</p>
+                    </div>
+                    <div class="bg-gray-100 text-gray-400 w-10 h-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div><div class="product-card flex items-center p-4 gap-4 animate-fade-in" data-manus_clickable="true" data-manus_click_id="13">
+                    <div class="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 bg-gray-100">
+                        <img src="images/produtos/x-tudo.jpg" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-sm">X-Tudo</h3>
+                        <p class="text-[10px] text-muted line-clamp-2 mt-1">Pão, carne, queijo, presunto, ovo, bacon, calabresa</p>
+                        <p class="text-green-600 font-black mt-2 text-sm">R$ 16.00</p>
+                    </div>
+                    <div class="bg-gray-100 text-gray-400 w-10 h-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div><div class="product-card flex items-center p-4 gap-4 animate-fade-in" data-manus_clickable="true" data-manus_click_id="14">
+                    <div class="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 bg-gray-100">
+                        <img src="images/produtos/x-burguer.jpg" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-sm">X-Burguer Duplo</h3>
+                        <p class="text-[10px] text-muted line-clamp-2 mt-1">Pão, 2 carnes, 2 queijos, 2 presuntos</p>
+                        <p class="text-green-600 font-black mt-2 text-sm">R$ 18.00</p>
+                    </div>
+                    <div class="bg-gray-100 text-gray-400 w-10 h-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div><div class="product-card flex items-center p-4 gap-4 animate-fade-in" data-manus_clickable="true" data-manus_click_id="15">
+                    <div class="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 bg-gray-100">
+                        <img src="images/produtos/x-egg-duplo.jpg" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-sm">X-Eggburguer Duplo</h3>
+                        <p class="text-[10px] text-muted line-clamp-2 mt-1">Pão, 2 carnes, 2 queijos, 2 presuntos, 2 ovos</p>
+                        <p class="text-green-600 font-black mt-2 text-sm">R$ 22.00</p>
+                    </div>
+                    <div class="bg-gray-100 text-gray-400 w-10 h-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div><div class="product-card flex items-center p-4 gap-4 animate-fade-in" data-manus_clickable="true" data-manus_click_id="16">
+                    <div class="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 bg-gray-100">
+                        <img src="images/produtos/x-calabresa-duplo.jpg" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-sm">X-Calabresa Duplo</h3>
+                        <p class="text-[10px] text-muted line-clamp-2 mt-1">Pão, 2 carnes, 2 queijos, 2 presuntos, calabresa dupla</p>
+                        <p class="text-green-600 font-black mt-2 text-sm">R$ 22.00</p>
+                    </div>
+                    <div class="bg-gray-100 text-gray-400 w-10 h-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div><div class="product-card flex items-center p-4 gap-4 animate-fade-in" data-manus_clickable="true" data-manus_click_id="17">
+                    <div class="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 bg-gray-100">
+                        <img src="images/produtos/x-bacon-duplo.jpg" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-sm">X-Bacon Duplo</h3>
+                        <p class="text-[10px] text-muted line-clamp-2 mt-1">Pão, 2 carnes, 2 queijos, 2 presuntos, bacon duplo</p>
+                        <p class="text-green-600 font-black mt-2 text-sm">R$ 22.00</p>
+                    </div>
+                    <div class="bg-gray-100 text-gray-400 w-10 h-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div><div class="product-card flex items-center p-4 gap-4 animate-fade-in" data-manus_clickable="true" data-manus_click_id="18">
+                    <div class="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 bg-gray-100">
+                        <img src="images/produtos/x-tudo-duplo.jpg" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-sm">X-Tudo Duplo</h3>
+                        <p class="text-[10px] text-muted line-clamp-2 mt-1">Pão, 2 carnes, 2 queijos, 2 presuntos, 2 ovos, 2 bacon, calabresa</p>
+                        <p class="text-green-600 font-black mt-2 text-sm">R$ 25.00</p>
+                    </div>
+                    <div class="bg-gray-100 text-gray-400 w-10 h-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div></div>
+
+        <!-- About Section -->
+        <footer id="about" class="bg-gray-900 text-white mt-12 pt-16 pb-12 px-6 rounded-t-[40px]">
+            <div class="max-w-2xl mx-auto space-y-12">
+                <div>
+                    <h3 class="text-2xl font-black mb-4 font-brand text-yellow-400">Sobre Nós</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Desde 1998, Cabral &amp; Izaura é referência em sabor e tradição na nossa região! Preparamos os melhores lanches, hot-dogs e açaís com ingredientes selecionados, muito carinho e o nosso lendário molho verde especial.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-black mb-6 font-brand text-yellow-400">Onde Estamos</h3>
+                    <p class="text-gray-400 text-sm mb-6">
+                        <i class="fas fa-map-marker-alt text-red-500 mr-2"></i>
+                        Rua Orquídea, 38 — Pavuna, Rio de Janeiro, RJ
+                    </p>
+                    <div class="grid grid-cols-2 gap-3 mb-4">
+                        <img src="images/loja-1.jpg" class="w-full h-40 object-cover rounded-2xl border border-gray-800">
+                        <img src="images/loja-2.jpg" class="w-full h-40 object-cover rounded-2xl border border-gray-800">
+                    </div>
+                    <img src="images/sobre-nos.png" class="w-full h-52 object-cover rounded-2xl border border-gray-800">
+                </div>
+
+                <div class="grid grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-bold mb-4 text-yellow-400">Funcionamento</h4>
+                        <ul class="text-[10px] text-gray-400 space-y-2">
+                            <li class="flex justify-between"><span>Seg-Qui:</span> <span class="text-white">18:30-22:30</span></li>
+                            <li class="flex justify-between"><span>Sex-Sáb:</span> <span class="text-white">18:00-00:30</span></li>
+                            <li class="flex justify-between"><span>Dom:</span> <span class="text-white">18:00-00:00</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-4 text-yellow-400">Contato</h4>
+                        <p class="text-sm text-gray-400 mb-2"><i class="fab fa-whatsapp text-green-500 mr-2"></i> (21) 99123-8516</p>
+                        <div class="flex gap-4 mt-4">
+                            <a href="#" class="text-white text-xl" data-manus_clickable="true" data-manus_click_id="19"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="text-white text-xl" data-manus_clickable="true" data-manus_click_id="20"><i class="fab fa-facebook"></i></a>
                         </div>
                     </div>
                 </div>
-            `).join('');
-        }
+
+                <div class="pt-8 border-t border-gray-800 text-center">
+                    <button onclick="openLogin()" class="text-gray-600 hover:text-gray-400 transition text-xs" data-manus_clickable="true" data-manus_click_id="21">
+                        <i class="fas fa-cog mr-1"></i> Configurações Administrativas
+                    </button>
+                    <p class="text-[8px] text-gray-700 mt-4">© 2026 Cabral &amp; Izaura. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item active" data-manus_clickable="true" data-manus_click_id="22">
+            <i class="fas fa-home"></i>
+            <span>Início</span>
+        </a>
+        <a href="#about" class="nav-item" data-manus_clickable="true" data-manus_click_id="23">
+            <i class="fas fa-info-circle"></i>
+            <span>Sobre</span>
+        </a>
+        <button onclick="toggleCart()" class="nav-item relative" data-manus_clickable="true" data-manus_click_id="24">
+            <div class="bg-red-600 text-white w-12 h-12 rounded-2xl flex items-center justify-center -mt-8 shadow-xl active:scale-90 transition">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cart-count" class="absolute -top-2 -right-2 bg-yellow-400 text-black text-[10px] font-black w-6 h-6 rounded-full flex items-center justify-center border-4 border-white">0</span>
+            </div>
+            <span class="mt-1">Carrinho</span>
+        </button>
+        <a href="https://wa.me/5521991238516" target="_blank" class="nav-item" data-manus_clickable="true" data-manus_click_id="25">
+            <i class="fab fa-whatsapp"></i>
+            <span>WhatsApp</span>
+        </a>
+        <button onclick="shareSite()" class="nav-item" data-manus_clickable="true" data-manus_click_id="26">
+            <i class="fas fa-share-alt"></i>
+            <span>Indicar</span>
+        </button>
+    </nav>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content flex flex-col h-[80vh]">
+            <div class="bg-red-600 text-white p-6 flex justify-between items-center">
+                <h2 class="font-black text-xl">Seu Pedido</h2>
+                <button onclick="toggleCart()" class="text-2xl">×</button>
+            </div>
+            <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4 no-scrollbar">
+                <!-- JS Injection -->
+            </div>
+            <div class="p-6 border-t border-gray-100 bg-gray-50 dark:bg-gray-800">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="font-bold text-gray-500">Total:</span>
+                    <span id="cart-total" class="text-2xl font-black text-green-600">R$ 0,00</span>
+                </div>
+                <button onclick="checkout()" class="w-full bg-green-500 text-white py-4 rounded-2xl font-black shadow-lg active:scale-95 transition flex items-center justify-center gap-3">
+                    <i class="fab fa-whatsapp text-xl"></i>
+                    FINALIZAR NO WHATSAPP
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Loading -->
+    <div id="admin-loading" class="hidden fixed inset-0 bg-black/80 flex flex-col items-center justify-center text-white font-bold z-[5000]">
+        <div class="w-12 h-12 border-4 border-red-600 border-t-white rounded-full animate-spin mb-4"></div>
+        <span>Sincronizando com GitHub...</span>
+    </div>
+
+    <!-- Audio Player -->
+    <audio id="welcome-audio" preload="auto"></audio>
+
+    <script>
+        const REPO_OWNER = 'izauracabrallanchesacai-arch';
+        const REPO_NAME = 'cabral-izaura';
+        const ADMIN_PASS = 'Apc@#$1996';
+        let GITHUB_TOKEN = localStorage.getItem('gh_token') || '';
+        let extraOpenActive = localStorage.getItem('extra_open') === 'true';
         
-        function openCart() {
-            document.getElementById('cartDrawer').classList.add('active');
+        const OPENING_HOURS = {
+            1: { open: "18:30", close: "22:30" },
+            2: { open: "18:30", close: "22:30" },
+            3: { open: "18:30", close: "22:30" },
+            4: { open: "18:30", close: "22:30" },
+            5: { open: "18:00", close: "00:30" },
+            6: { open: "18:00", close: "00:30" },
+            0: { open: "18:00", close: "00:00" }
+        };
+
+        let MENU = [];
+        let CART = [];
+        let currentCategory = 'lanches';
+        let audioPlayed = false;
+        let isStoreOpen = false;
+        let SALES = JSON.parse(localStorage.getItem('cabral_sales') || '[]');
+        let COUPONS = JSON.parse(localStorage.getItem('cabral_coupons') || '[]');
+
+        // ─── Áudio de Boas-Vindas ─────────────────────────────────────────────────
+        let audioInitialized = false;
+        function initAudio() {
+            if (audioInitialized) return;
+            audioInitialized = true;
+            const audio = document.getElementById('welcome-audio');
+            audio.src = 'https://voca.ro/1ar5AnKo0qus';
+            audio.volume = 0.35;
+            audio.load();
         }
-        
-        function closeCart() {
-            document.getElementById('cartDrawer').classList.remove('active');
-        }
-        
-        // Checkout
-        function checkout() {
-            if (cart.length === 0) {
-                alert('Seu carrinho está vazio!');
-                return;
+
+        document.addEventListener('click', function playWelcome() {
+            if (!audioPlayed) {
+                initAudio();
+                const audio = document.getElementById('welcome-audio');
+                audio.play().then(() => { audioPlayed = true; }).catch(e => console.log(e));
+                document.removeEventListener('click', playWelcome);
             }
+        }, { once: false });
+
+        // ─── Inicialização ────────────────────────────────────────────────────────
+        async function init() {
+            try {
+                const res = await fetch('products.json?nocache=' + Date.now(), {
+                    cache: 'no-store',
+                    headers: { 'Cache-Control': 'no-cache' }
+                });
+                MENU = await res.json();
+                localStorage.setItem('cabral_menu_temp', JSON.stringify(MENU));
+                renderProducts();
+            } catch (e) {
+                const localMenu = localStorage.getItem('cabral_menu_temp');
+                if (localMenu) { MENU = JSON.parse(localMenu); renderProducts(); }
+            }
+            updateStatus();
+            setInterval(updateStatus, 30000);
             
-            let message = '🛒 *Pedido Cabral & Izaura*\n\n';
+            if (localStorage.getItem('darkMode') === 'true') toggleDarkMode(true);
+        }
+
+        function updateStatus() {
+            const statusDiv = document.getElementById('store-status');
+            const now = new Date();
+            const day = now.getDay();
+            const hours = now.getHours();
+            const mins = now.getMinutes();
+            const currentTime = hours.toString().padStart(2, '0') + ':' + mins.toString().padStart(2, '0');
+            const schedule = OPENING_HOURS[day];
+            
+            isStoreOpen = false;
+            if (extraOpenActive) {
+                isStoreOpen = true;
+                statusDiv.innerHTML = '<span class="status-badge status-extra"><i class="fas fa-circle text-[8px] pulse"></i> Aberto — Horário Especial</span>';
+            } else {
+                if (schedule.close < schedule.open) {
+                    if (currentTime >= schedule.open || currentTime < schedule.close) isStoreOpen = true;
+                } else {
+                    if (currentTime >= schedule.open && currentTime < schedule.close) isStoreOpen = true;
+                }
+
+                if (isStoreOpen) {
+                    statusDiv.innerHTML = '<span class="status-badge status-open"><i class="fas fa-circle text-[8px] pulse"></i> Aberto Agora</span>';
+                } else {
+                    statusDiv.innerHTML = '<span class="status-badge status-closed"><i class="fas fa-moon"></i> Fechado Agora</span>';
+                }
+            }
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+            const filtered = MENU.filter(p => p.cat === currentCategory);
+            
+            filtered.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'product-card flex items-center p-4 gap-4 animate-fade-in';
+                card.onclick = () => addToCart(p);
+                card.innerHTML = `
+                    <div class="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 bg-gray-100">
+                        <img src="${p.img}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-sm">${p.name}</h3>
+                        <p class="text-[10px] text-muted line-clamp-2 mt-1">${p.desc}</p>
+                        <p class="text-green-600 font-black mt-2 text-sm">R$ ${parseFloat(p.price).toFixed(2)}</p>
+                    </div>
+                    <div class="${isStoreOpen ? 'bg-red-50 text-red-600' : 'bg-gray-100 text-gray-400'} w-10 h-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.category-btn').forEach(b => {
+                b.classList.remove('active');
+                if (b.textContent.toLowerCase().includes(cat)) b.classList.add('active');
+            });
+            renderProducts();
+        }
+
+        // ─── Carrinho ─────────────────────────────────────────────────────────────
+        function addToCart(product) {
+            if (!isStoreOpen) return alert('Loja fechada no momento! Confira nossos horários de funcionamento.');
+            
+            const existing = CART.find(item => item.id === product.id);
+            if (existing) {
+                existing.quantity++;
+            } else {
+                CART.push({ ...product, quantity: 1 });
+            }
+            updateCartUI();
+            
+            // Feedback visual
+            const badge = document.getElementById('cart-count');
+            badge.classList.add('scale-150');
+            setTimeout(() => badge.classList.remove('scale-150'), 200);
+        }
+
+        function updateCartUI() {
+            const count = CART.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-count').innerText = count;
+            
+            const itemsDiv = document.getElementById('cart-items');
+            itemsDiv.innerHTML = '';
             let total = 0;
             
-            cart.forEach(item => {
-                const itemTotal = (item.preco + item.adicionalPrice) * item.qty;
-                total += itemTotal;
-                message += `${item.nome} x${item.qty} - R$ ${itemTotal.toFixed(2)}\n`;
-                if (item.adicionais.length > 0) {
-                    message += `  Adicionais: ${item.adicionais.join(', ')}\n`;
-                }
+            CART.forEach((item, index) => {
+                total += item.price * item.quantity;
+                const div = document.createElement('div');
+                div.className = 'bg-card-bg p-4 rounded-2xl border border-gray-100 flex justify-between items-center';
+                div.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <img src="${item.img}" class="w-12 h-12 rounded-xl object-cover">
+                        <div>
+                            <h4 class="font-bold text-sm">${item.name}</h4>
+                            <p class="text-xs text-green-600 font-bold">R$ ${(item.price * item.quantity).toFixed(2)}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="changeQty(${index}, -1)" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"><i class="fas fa-minus text-xs"></i></button>
+                        <span class="font-bold">${item.quantity}</span>
+                        <button onclick="changeQty(${index}, 1)" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"><i class="fas fa-plus text-xs"></i></button>
+                    </div>
+                `;
+                itemsDiv.appendChild(div);
             });
             
-            message += `\n*Total: R$ ${total.toFixed(2)}*`;
-            
-            const encodedMessage = encodeURIComponent(message);
-            window.open(`https://wa.me/${WHATSAPP}?text=${encodedMessage}`, '_blank');
+            if (CART.length === 0) itemsDiv.innerHTML = '<div class="text-center py-12 text-muted"><i class="fas fa-shopping-basket text-4xl mb-4 block opacity-20"></i>Seu carrinho está vazio</div>';
+            document.getElementById('cart-total').innerText = 'R$ ' + total.toFixed(2);
         }
-        
-        // Inicializar
-        document.addEventListener('DOMContentLoaded', () => {
-            initTheme();
-            checkWelcomeAudio();
-            loadProducts();
+
+        function changeQty(index, delta) {
+            CART[index].quantity += delta;
+            if (CART[index].quantity <= 0) CART.splice(index, 1);
+            updateCartUI();
+        }
+
+        function toggleCart() {
+            document.getElementById('cart-modal').classList.toggle('active');
+        }
+
+        function checkout() {
+            if (CART.length === 0) return alert('Seu carrinho está vazio!');
+            let msg = '*NOVO PEDIDO - CABRAL & IZAURA*\n\n';
+            let total = 0;
+            CART.forEach(item => {
+                msg += `✅ *${item.quantity}x ${item.name}* - R$ ${(item.price * item.quantity).toFixed(2)}\n`;
+                total += item.price * item.quantity;
+            });
+            msg += `\n*TOTAL: R$ ${total.toFixed(2)}*\n\nEndereço de entrega:`;
+            recordSale(CART, total);
+            CART = [];
+            updateCartUI();
+            window.open(`https://wa.me/5521991238516?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        // ─── Admin ────────────────────────────────────────────────────────────────
+        function openLogin() {
+            const pass = prompt('Senha Administrativa:');
+            if (pass === ADMIN_PASS) {
+                if (!GITHUB_TOKEN) {
+                    const token = prompt('Token do GitHub:');
+                    if (token) { GITHUB_TOKEN = token; localStorage.setItem('gh_token', token); }
+                }
+                openAdmin();
+            } else if (pass !== null) alert('Senha incorreta!');
+        }
+
+        function openAdmin() {
+            const modal = document.createElement('div');
+            modal.id = 'admin-modal';
+            modal.className = 'fixed inset-0 bg-white z-[2000] flex flex-col dark:bg-gray-900';
+            const extraBtnClass = extraOpenActive ? 'bg-red-600 text-white' : 'bg-green-600 text-white';
+            const extraBtnText = extraOpenActive ? 'FECHAR LOJA AGORA' : 'ABRIR LOJA AGORA';
             
-            // Reproduzir áudio após primeiro clique
-            document.addEventListener('click', playWelcomeAudio, { once: true });
+            modal.innerHTML = `
+                <div class="bg-red-600 text-white p-6 flex justify-between items-center">
+                    <h2 class="font-black text-xl">Painel Admin</h2>
+                    <div class="flex gap-2">
+                        <button onclick="toggleExtraOpen()" id="btn-extra" class="${extraBtnClass} px-4 py-2 rounded-xl font-bold text-xs">${extraBtnText}</button>
+                        <button onclick="saveAllToGitHub()" class="bg-green-500 px-4 py-2 rounded-xl font-bold text-xs">SALVAR</button>
+                        <button onclick="document.getElementById('admin-modal').remove()" class="bg-white text-red-600 px-4 py-2 rounded-xl font-bold text-xs">SAIR</button>
+                    </div>
+                </div>
+                <div class="flex border-b bg-gray-50 dark:bg-gray-800 overflow-x-auto no-scrollbar">
+                    <button onclick="renderAdminTab('precos')" class="admin-tab-btn active px-6 py-3 font-bold text-sm border-b-2 border-red-600">Preços</button>
+                    <button onclick="renderAdminTab('vendas')" class="admin-tab-btn px-6 py-3 font-bold text-sm border-b-2 border-transparent">Vendas</button>
+                    <button onclick="renderAdminTab('cupons')" class="admin-tab-btn px-6 py-3 font-bold text-sm border-b-2 border-transparent">Cupons</button>
+                </div>
+                <div class="flex-1 overflow-y-auto p-6 space-y-6 no-scrollbar" id="admin-list">
+                    <!-- JS Injection -->
+                </div>
+            `;
+            document.body.appendChild(modal);
+            renderAdminTab('precos');
+        }
+
+        function renderAdminTab(tab) {
+            document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active', 'border-red-600'));
+            document.querySelector(`[onclick="renderAdminTab('${tab}')"]`).classList.add('active', 'border-red-600');
+            const list = document.getElementById('admin-list');
+            if (tab === 'precos') renderAdminList();
+            else if (tab === 'vendas') renderSalesReport();
+            else if (tab === 'cupons') renderCouponsManager();
+        }
+
+        function renderAdminList() {
+            const list = document.getElementById('admin-list');
+            list.innerHTML = '<h3 class="font-black text-lg mb-4">Gerenciar Preços</h3>';
+            MENU.forEach((p, idx) => {
+                const div = document.createElement('div');
+                div.className = 'bg-gray-50 dark:bg-gray-800 p-4 rounded-2xl border border-gray-100 flex gap-4 items-center';
+                div.innerHTML = `
+                    <img src="${p.img}" class="w-12 h-12 rounded-xl object-cover">
+                    <div class="flex-1">
+                        <p class="font-bold text-sm">${p.name}</p>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="text-xs text-muted">R$</span>
+                            <input type="number" step="0.5" value="${p.price}" onchange="MENU[${idx}].price = parseFloat(this.value)" class="w-20 bg-transparent border-b border-gray-300 font-bold text-green-600">
+                        </div>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function recordSale(items, total) {
+            SALES.push({ date: new Date().toISOString(), items: items.map(i => ({ name: i.name, qty: i.quantity, price: i.price })), total });
+            localStorage.setItem('cabral_sales', JSON.stringify(SALES));
+        }
+
+        function renderSalesReport() {
+            const list = document.getElementById('admin-list');
+            list.innerHTML = '<h3 class="font-black text-lg mb-4">Relatório de Vendas</h3>';
+            if (SALES.length === 0) { list.innerHTML += '<p class="text-center text-muted py-8">Nenhuma venda registrada.</p>'; return; }
+            let totalSales = 0, totalItems = 0; const byProduct = {};
+            SALES.forEach(sale => { totalSales += sale.total; sale.items.forEach(item => { totalItems += item.qty; byProduct[item.name] = (byProduct[item.name] || 0) + item.qty; }); });
+            const div = document.createElement('div');
+            div.className = 'bg-green-50 dark:bg-green-900/20 p-6 rounded-2xl border-2 border-green-300';
+            div.innerHTML = `<div class="grid grid-cols-2 gap-4 mb-6"><div><p class="text-xs text-muted">Total de Vendas</p><p class="text-2xl font-black text-green-600">R$ ${totalSales.toFixed(2)}</p></div><div><p class="text-xs text-muted">Itens Vendidos</p><p class="text-2xl font-black text-green-600">${totalItems}</p></div></div><h4 class="font-bold mb-3 text-sm">Top Produtos:</h4><div class="space-y-2">${Object.entries(byProduct).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([name, qty]) => `<div class="flex justify-between text-sm"><span>${name}</span><span class="font-bold">${qty}x</span></div>`).join('')}</div>`;
+            list.appendChild(div);
+            const btn = document.createElement('button');
+            btn.className = 'w-full bg-red-500 text-white py-3 rounded-2xl font-bold mt-4';
+            btn.innerText = 'LIMPAR HISTÓRICO';
+            btn.onclick = () => { if (confirm('Tem certeza?')) { SALES = []; localStorage.removeItem('cabral_sales'); renderSalesReport(); } };
+            list.appendChild(btn);
+        }
+
+        function renderCouponsManager() {
+            const list = document.getElementById('admin-list');
+            list.innerHTML = '<h3 class="font-black text-lg mb-4">Gerenciar Cupons</h3>';
+            const form = document.createElement('div');
+            form.className = 'bg-blue-50 dark:bg-blue-900/20 p-6 rounded-2xl border-2 border-blue-300 space-y-4 mb-6';
+            form.innerHTML = `<input type="text" id="coupon-code" placeholder="Código (ex: PROMO10)" class="w-full bg-white dark:bg-gray-800 border border-gray-300 p-3 rounded-xl font-bold text-sm"><input type="number" id="coupon-discount" placeholder="Desconto (%)" min="1" max="100" class="w-full bg-white dark:bg-gray-800 border border-gray-300 p-3 rounded-xl font-bold text-sm"><input type="date" id="coupon-expiry" class="w-full bg-white dark:bg-gray-800 border border-gray-300 p-3 rounded-xl font-bold text-sm"><button onclick="addCoupon()" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold">CRIAR CUPOM</button>`;
+            list.appendChild(form);
+            if (COUPONS.length === 0) { list.innerHTML += '<p class="text-center text-muted py-8">Nenhum cupom criado.</p>'; return; }
+            COUPONS.forEach((c, idx) => {
+                const div = document.createElement('div');
+                div.className = 'bg-gray-50 dark:bg-gray-800 p-4 rounded-2xl border border-gray-100 flex justify-between items-center';
+                const isExpired = new Date(c.expiry) < new Date();
+                div.innerHTML = `<div><p class="font-black text-sm">${c.code}</p><p class="text-xs text-muted">${c.discount}% OFF • Válido até ${new Date(c.expiry).toLocaleDateString('pt-BR')}</p>${isExpired ? '<p class="text-[10px] text-red-600 font-bold">EXPIRADO</p>' : ''}</div><button onclick="removeCoupon(${idx})" class="text-red-600 font-bold"><i class="fas fa-trash"></i></button>`;
+                list.appendChild(div);
+            });
+        }
+
+        function addCoupon() {
+            const code = document.getElementById('coupon-code').value.toUpperCase();
+            const discount = parseFloat(document.getElementById('coupon-discount').value);
+            const expiry = document.getElementById('coupon-expiry').value;
+            if (!code || !discount || !expiry) return alert('Preencha todos os campos!');
+            if (COUPONS.some(c => c.code === code)) return alert('Cupom já existe!');
+            COUPONS.push({ code, discount, expiry });
+            localStorage.setItem('cabral_coupons', JSON.stringify(COUPONS));
+            renderCouponsManager();
+        }
+
+        function removeCoupon(idx) {
+            COUPONS.splice(idx, 1);
+            localStorage.setItem('cabral_coupons', JSON.stringify(COUPONS));
+            renderCouponsManager();
+        }
+
+        function toggleExtraOpen() {
+            extraOpenActive = !extraOpenActive;
+            localStorage.setItem('extra_open', extraOpenActive);
+            const btn = document.getElementById('btn-extra');
+            btn.className = extraOpenActive ? 'bg-red-600 text-white px-4 py-2 rounded-xl font-bold text-xs' : 'bg-green-600 text-white px-4 py-2 rounded-xl font-bold text-xs';
+            btn.innerText = extraOpenActive ? 'FECHAR LOJA AGORA' : 'ABRIR LOJA AGORA';
+            updateStatus();
+            renderProducts(); // Re-render para habilitar/desabilitar botões de compra
+        }
+
+        async function saveAllToGitHub() {
+            if (!GITHUB_TOKEN) return alert('Token não configurado!');
+            document.getElementById('admin-loading').classList.remove('hidden');
+            try {
+                const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/products.json`, {
+                    headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
+                });
+                const data = await res.json();
+                const updateRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/products.json`, {
+                    method: 'PUT',
+                    headers: { 'Authorization': `token ${GITHUB_TOKEN}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: "Update products.json via Admin",
+                        content: btoa(unescape(encodeURIComponent(JSON.stringify(MENU, null, 2)))),
+                        sha: data.sha
+                    })
+                });
+                if (updateRes.ok) alert('✅ Salvo com sucesso!');
+                else alert('Erro ao salvar.');
+            } catch (e) { alert('Erro na conexão.'); }
+            document.getElementById('admin-loading').classList.add('hidden');
+        }
+
+        // ─── Utilidades ───────────────────────────────────────────────────────────
+        function toggleDarkMode(force = false) {
+            const isDark = force || !document.body.classList.contains('dark-mode');
+            document.body.classList.toggle('dark-mode', isDark);
+            document.getElementById('dark-icon').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('darkMode', isDark);
+        }
+
+        function shareSite() {
+            if (navigator.share) {
+                navigator.share({ title: 'Cabral & Izaura', text: 'Confira o cardápio da Cabral & Izaura!', url: window.location.href });
+            } else {
+                alert('Link copiado: ' + window.location.href);
+            }
+        }
+
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('install-button').classList.remove('hidden');
         });
+
+        async function installPWA() {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') document.getElementById('install-button').classList.add('hidden');
+            deferredPrompt = null;
+        }
+
+        // SW v5
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js?v=5');
+            });
+        }
+
+        init();
     </script>
-</body>
-</html>
+
+
+</body></html>

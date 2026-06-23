@@ -2,7 +2,7 @@
   "name": "Cabral & Izaura Lanches e Açaí",
   "short_name": "Cabral & Izaura",
   "description": "O melhor lanche e açaí da região desde 1998.",
-  "start_url": "./index.html?v=9",
+  "start_url": "./index.html?v=8",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#ffffff",

@@ -1,9 +1,9 @@
-// Service Worker v9 - Limpeza Profunda e Otimização
-const CACHE_ID = 'cabral-v9-' + Date.now();
+// Service Worker v8 - Limpeza Profunda
+const CACHE_ID = 'cabral-v8-' + Date.now();
 
 // Install: Limpar TODOS os caches antigos
 self.addEventListener('install', (event) => {
-  console.log('[SW] Installing v9...');
+  console.log('[SW] Installing v8...');
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
@@ -21,10 +21,10 @@ self.addEventListener('install', (event) => {
 
 // Activate: Assumir controle imediatamente
 self.addEventListener('activate', (event) => {
-  console.log('[SW] Activating v9...');
+  console.log('[SW] Activating v8...');
   event.waitUntil(
     self.clients.claim().then(() => {
-      console.log('[SW] v9 is now active');
+      console.log('[SW] v8 is now active');
     })
   );
 });
