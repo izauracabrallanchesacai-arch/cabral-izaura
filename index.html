@@ -75,13 +75,23 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: #7c3aed;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.9), rgba(93, 3, 115, 0.8));
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: bold;
             font-size: 18px;
+            box-shadow: 0 8px 16px rgba(124, 58, 237, 0.4), inset -2px -2px 4px rgba(0,0,0,0.2), inset 2px 2px 4px rgba(255,255,255,0.3);
+            transform: perspective(1000px) rotateX(5deg) rotateY(5deg);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .header-logo:hover {
+            transform: perspective(1000px) rotateX(-5deg) rotateY(-5deg) scale(1.05);
+            box-shadow: 0 12px 24px rgba(124, 58, 237, 0.6), inset -2px -2px 6px rgba(0,0,0,0.3), inset 2px 2px 6px rgba(255,255,255,0.4);
         }
 
         .header-title {
@@ -108,11 +118,11 @@
             gap: 12px;
         }
 
-        /* Toggle Switch */
+        /* Toggle Switch Bicolor */
         .toggle-switch {
-            width: 50px;
+            width: 56px;
             height: 28px;
-            background: #e0e0e0;
+            background: linear-gradient(90deg, #f5f5f5 50%, #1a1a1a 50%);
             border-radius: 14px;
             border: 2px solid #ccc;
             cursor: pointer;
@@ -120,24 +130,27 @@
             transition: all 0.3s;
             display: flex;
             align-items: center;
-            padding: 0 3px;
+            padding: 2px;
+            overflow: hidden;
         }
 
         .toggle-switch.active {
-            background: #7c3aed;
+            background: linear-gradient(90deg, #f5f5f5 50%, #1a1a1a 50%);
             border-color: #7c3aed;
+            box-shadow: 0 0 8px rgba(124, 58, 237, 0.4);
         }
 
         .toggle-switch-circle {
-            width: 22px;
-            height: 22px;
+            width: 24px;
+            height: 24px;
             background: white;
             border-radius: 50%;
             transition: transform 0.3s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .toggle-switch.active .toggle-switch-circle {
-            transform: translateX(22px);
+            transform: translateX(28px);
         }
 
         .header-icons {
@@ -203,6 +216,14 @@
             gap: 12px;
             padding: 16px;
             padding-bottom: 80px;
+        }
+
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+                padding: 12px;
+            }
         }
 
         /* Card de Produto */
