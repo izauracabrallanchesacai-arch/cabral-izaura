@@ -118,6 +118,56 @@
   },
   {
     "id": 9,
+    "nome": "X-Eggburguer Duplo",
+    "descricao": "Pão, 2 carnes, 2 queijos, 2 presuntos, 2 ovos",
+    "preco": 22.00,
+    "categoria": "lanches",
+    "imagem": "https://via.placeholder.com/200x150?text=X-Egg-Duplo",
+    "adicionais": {
+      "gratis": ["Alface", "Tomate"],
+      "pagos": [
+        { "nome": "Bacon", "preco": 3.00 }
+      ]
+    }
+  },
+  {
+    "id": 10,
+    "nome": "X-Calabresa Duplo",
+    "descricao": "Pão, 2 carnes, 2 queijos, 2 presuntos, calabresa dupla",
+    "preco": 22.00,
+    "categoria": "lanches",
+    "imagem": "https://via.placeholder.com/200x150?text=X-Calabresa-Duplo",
+    "adicionais": {
+      "gratis": ["Alface", "Tomate"],
+      "pagos": []
+    }
+  },
+  {
+    "id": 11,
+    "nome": "X-Bacon Duplo",
+    "descricao": "Pão, 2 carnes, 2 queijos, 2 presuntos, bacon duplo",
+    "preco": 22.00,
+    "categoria": "lanches",
+    "imagem": "https://via.placeholder.com/200x150?text=X-Bacon-Duplo",
+    "adicionais": {
+      "gratis": ["Alface", "Tomate"],
+      "pagos": []
+    }
+  },
+  {
+    "id": 12,
+    "nome": "X-Tudo Duplo",
+    "descricao": "Pão, 2 carnes, 2 queijos, 2 presuntos, 2 ovos, 2 bacon, calabresa",
+    "preco": 25.00,
+    "categoria": "lanches",
+    "imagem": "https://via.placeholder.com/200x150?text=X-Tudo-Duplo",
+    "adicionais": {
+      "gratis": ["Alface", "Tomate"],
+      "pagos": []
+    }
+  },
+  {
+    "id": 13,
     "nome": "Açaí 150ml",
     "descricao": "Açaí cremoso premium",
     "preco": 5.00,
@@ -132,7 +182,7 @@
     }
   },
   {
-    "id": 10,
+    "id": 14,
     "nome": "Açaí 200ml",
     "descricao": "Açaí cremoso premium",
     "preco": 6.00,
@@ -147,7 +197,7 @@
     }
   },
   {
-    "id": 11,
+    "id": 15,
     "nome": "Açaí 250ml",
     "descricao": "Açaí cremoso premium",
     "preco": 8.00,
@@ -162,7 +212,7 @@
     }
   },
   {
-    "id": 12,
+    "id": 16,
     "nome": "Açaí 300ml",
     "descricao": "Açaí cremoso premium",
     "preco": 10.00,
@@ -177,7 +227,7 @@
     }
   },
   {
-    "id": 13,
+    "id": 17,
     "nome": "Açaí 400ml",
     "descricao": "Açaí cremoso premium",
     "preco": 12.00,
@@ -192,7 +242,7 @@
     }
   },
   {
-    "id": 14,
+    "id": 18,
     "nome": "Açaí 500ml",
     "descricao": "Açaí cremoso premium",
     "preco": 15.00,
@@ -207,7 +257,67 @@
     }
   },
   {
-    "id": 15,
+    "id": 19,
+    "nome": "Palha Italiana Tradicional",
+    "descricao": "Palha Italiana crocante e deliciosa",
+    "preco": 8.00,
+    "categoria": "palha-italiana",
+    "imagem": "https://via.placeholder.com/200x150?text=Palha+Tradicional",
+    "adicionais": {
+      "gratis": [],
+      "pagos": []
+    }
+  },
+  {
+    "id": 20,
+    "nome": "Palha Italiana Beijinho",
+    "descricao": "Palha Italiana com cobertura de beijinho",
+    "preco": 8.00,
+    "categoria": "palha-italiana",
+    "imagem": "https://ibb.co/HSfBHxd",
+    "adicionais": {
+      "gratis": [],
+      "pagos": []
+    }
+  },
+  {
+    "id": 21,
+    "nome": "Palha Italiana de Açaí",
+    "descricao": "Palha Italiana com sabor de açaí",
+    "preco": 8.00,
+    "categoria": "palha-italiana",
+    "imagem": "https://ibb.co/Pz4vQLPW",
+    "adicionais": {
+      "gratis": [],
+      "pagos": []
+    }
+  },
+  {
+    "id": 22,
+    "nome": "Palha Italiana de Oreo",
+    "descricao": "Palha Italiana com sabor de Oreo",
+    "preco": 10.00,
+    "categoria": "palha-italiana",
+    "imagem": "https://ibb.co/jCm8dfg",
+    "adicionais": {
+      "gratis": [],
+      "pagos": []
+    }
+  },
+  {
+    "id": 23,
+    "nome": "Palha Italiana de Maracujá com Chocolate",
+    "descricao": "Palha Italiana com sabor de maracujá e chocolate",
+    "preco": 10.00,
+    "categoria": "palha-italiana",
+    "imagem": "https://ibb.co/Xk7rYCNR",
+    "adicionais": {
+      "gratis": [],
+      "pagos": []
+    }
+  },
+  {
+    "id": 24,
     "nome": "Batata Frita Tradicional",
     "descricao": "Batata frita crocante",
     "preco": 8.00,
@@ -222,7 +332,7 @@
     }
   },
   {
-    "id": 16,
+    "id": 25,
     "nome": "Refrigerante Lata",
     "descricao": "Refrigerante gelado 350ml",
     "preco": 4.00,
@@ -234,7 +344,7 @@
     }
   },
   {
-    "id": 17,
+    "id": 26,
     "nome": "Suco Natural 500ml",
     "descricao": "Suco natural de frutas",
     "preco": 6.00,

@@ -6,100 +6,477 @@
     <meta name="theme-color" content="#da291c">
     <meta name="description" content="Cabral & Izaura - Lanches e Açaí desde 1998">
     <title>Cabral & Izaura - Lanches e Açaí</title>
-    <link rel="manifest" href="manifest.json?v=8">
+    <link rel="manifest" href="manifest.json?v=9">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>🍔</text></svg>">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Poppins', sans-serif; background: #f5f5f5; color: #333; }
+        
+        :root {
+            --primary-color: #da291c;
+            --primary-dark: #a01f14;
+            --success-color: #4CAF50;
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-light: #f5f5f5;
+            --bg-dark: #1a1a1a;
+            --border-color: #eee;
+        }
+        
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        body.dark-mode {
+            background: var(--bg-dark);
+            color: #f5f5f5;
+        }
+        
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
         
         /* Header */
-        header { background: linear-gradient(135deg, #da291c 0%, #a01f14 100%); color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: center; }
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+        }
+        
         header h1 { font-size: 28px; margin: 10px 0; }
         header p { font-size: 14px; opacity: 0.9; }
         
-        /* Status */
-        .status { background: #4CAF50; color: white; padding: 12px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-weight: bold; }
-        .status.closed { background: #f44336; }
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+        
+        /* Theme Toggle Switch */
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 50px;
+            padding: 3px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 60px;
+            height: 30px;
+        }
+        
+        body.dark-mode .theme-toggle {
+            background: #333;
+        }
+        
+        .theme-toggle-circle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+            font-size: 14px;
+        }
+        
+        body.dark-mode .theme-toggle-circle {
+            transform: translateX(30px);
+            background: linear-gradient(135deg, #333 0%, #1a1a1a 100%);
+        }
+        
+        /* PWA Install Button */
+        #install-button {
+            display: none;
+            padding: 10px 16px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        #install-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(218, 41, 28, 0.3);
+        }
+        
+        #install-button.show {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
         
         /* Categorias */
-        .categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 30px; }
-        .category-btn { padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.3s; background: #e0e0e0; color: #333; }
-        .category-btn.active { background: #da291c; color: white; transform: scale(1.05); }
-        .category-btn:hover { transform: scale(1.02); }
+        .categories-section {
+            margin-bottom: 30px;
+        }
+        
+        .categories-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        
+        .category-btn {
+            padding: 14px 16px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            background: white;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+        
+        body.dark-mode .category-btn {
+            background: #333;
+            border-color: #555;
+            color: #f5f5f5;
+        }
+        
+        .category-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border-color: var(--primary-color);
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(218, 41, 28, 0.3);
+        }
+        
+        .category-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
         
         /* Produtos */
-        .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
-        .product { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.2s; }
-        .product:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
-        .product img { width: 100%; height: 150px; object-fit: cover; }
-        .product-info { padding: 15px; }
-        .product-name { font-weight: bold; font-size: 16px; margin-bottom: 5px; }
-        .product-desc { font-size: 12px; color: #666; margin-bottom: 10px; }
-        .product-price { color: #4CAF50; font-weight: bold; font-size: 18px; }
+        .products-section {
+            margin-bottom: 30px;
+        }
+        
+        .products-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .products {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .products {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .product {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        body.dark-mode .product {
+            background: #333;
+            color: #f5f5f5;
+        }
+        
+        .product:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+            border-color: var(--primary-color);
+        }
+        
+        .product img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 16px;
+        }
+        
+        .product-name {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+        
+        .product-desc {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        body.dark-mode .product-desc {
+            color: #aaa;
+        }
+        
+        .product-price {
+            color: var(--success-color);
+            font-weight: bold;
+            font-size: 18px;
+        }
         
         /* Modal */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
         .modal.active { display: flex; }
-        .modal-content { background: white; border-radius: 12px; padding: 30px; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto; }
-        .modal-close { float: right; font-size: 24px; cursor: pointer; font-weight: bold; }
+        
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        body.dark-mode .modal-content {
+            background: #333;
+            color: #f5f5f5;
+        }
+        
+        .modal-close {
+            float: right;
+            font-size: 28px;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--primary-color);
+            transition: all 0.3s;
+        }
+        
+        .modal-close:hover {
+            transform: scale(1.2);
+        }
+        
         .modal-title { font-size: 24px; font-weight: bold; margin: 20px 0; }
-        .modal-price { color: #4CAF50; font-size: 22px; font-weight: bold; margin: 10px 0; }
-        .modal-desc { color: #666; margin-bottom: 20px; }
+        .modal-price { color: var(--success-color); font-size: 22px; font-weight: bold; margin: 10px 0; }
+        .modal-desc { color: var(--text-light); margin-bottom: 20px; }
+        
+        body.dark-mode .modal-desc {
+            color: #aaa;
+        }
         
         /* Adicionais */
         .adicionais-section { margin: 20px 0; }
-        .adicionais-title { font-weight: bold; margin-bottom: 10px; }
-        .adicional { display: flex; align-items: center; margin: 8px 0; }
-        .adicional input { margin-right: 10px; }
-        .adicional-price { color: #4CAF50; margin-left: auto; font-size: 12px; }
+        .adicionais-title { font-weight: bold; margin-bottom: 10px; font-size: 14px; text-transform: uppercase; }
+        .adicional {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 8px;
+            border-radius: 6px;
+            background: #f9f9f9;
+        }
+        
+        body.dark-mode .adicional {
+            background: #444;
+        }
+        
+        .adicional input { margin-right: 10px; cursor: pointer; }
+        .adicional-price { color: var(--success-color); margin-left: auto; font-size: 12px; font-weight: bold; }
         
         /* Botões */
-        .btn { padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
-        .btn-primary { background: #4CAF50; color: white; }
-        .btn-primary:hover { background: #45a049; }
-        .btn-secondary { background: #da291c; color: white; }
-        .btn-secondary:hover { background: #a01f14; }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--success-color), #45a049);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(218, 41, 28, 0.3);
+        }
         
         /* Carrinho */
-        .cart-drawer { display: none; position: fixed; right: 0; top: 0; width: 100%; max-width: 400px; height: 100%; background: white; box-shadow: -4px 0 12px rgba(0,0,0,0.2); z-index: 999; overflow-y: auto; }
-        .cart-drawer.active { display: flex; flex-direction: column; }
-        .cart-header { background: #da291c; color: white; padding: 20px; font-size: 20px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+        .cart-drawer {
+            display: none;
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            background: white;
+            box-shadow: -4px 0 12px rgba(0,0,0,0.2);
+            z-index: 999;
+            overflow-y: auto;
+            flex-direction: column;
+        }
+        
+        body.dark-mode .cart-drawer {
+            background: #333;
+            color: #f5f5f5;
+        }
+        
+        .cart-drawer.active { display: flex; }
+        
+        .cart-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
         .cart-items { flex: 1; padding: 20px; overflow-y: auto; }
-        .cart-item { display: flex; gap: 10px; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
+        
+        .cart-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        body.dark-mode .cart-item {
+            border-bottom-color: #555;
+        }
+        
         .cart-item-img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; }
         .cart-item-info { flex: 1; }
         .cart-item-name { font-weight: bold; font-size: 14px; }
-        .cart-item-price { color: #4CAF50; font-weight: bold; }
-        .cart-item-qty { display: flex; gap: 5px; align-items: center; margin-top: 5px; }
-        .cart-footer { padding: 20px; border-top: 2px solid #eee; }
-        .cart-total { font-size: 20px; font-weight: bold; margin-bottom: 15px; }
-        .cart-total-value { color: #4CAF50; }
+        .cart-item-price { color: var(--success-color); font-weight: bold; }
+        .cart-item-qty {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            margin-top: 5px;
+        }
+        
+        .cart-footer {
+            padding: 20px;
+            border-top: 2px solid var(--border-color);
+        }
+        
+        body.dark-mode .cart-footer {
+            border-top-color: #555;
+        }
+        
+        .cart-total { font-size: 18px; font-weight: bold; margin-bottom: 15px; }
+        .cart-total-value { color: var(--success-color); }
         
         /* Footer */
-        footer { background: #333; color: white; padding: 20px; text-align: center; margin-top: 40px; border-radius: 10px; }
-        footer a { color: #4CAF50; text-decoration: none; }
+        footer {
+            background: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+            border-radius: 10px;
+        }
+        
+        footer a { color: var(--success-color); text-decoration: none; }
         
         /* Responsivo */
         @media (max-width: 768px) {
-            .products { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
             .cart-drawer { max-width: 100%; }
+            header h1 { font-size: 24px; }
+            .categories { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="top-bar">
+            <div style="flex: 1;"></div>
+            <div class="theme-toggle" onclick="toggleTheme()" title="Alternar tema claro/escuro">
+                <div class="theme-toggle-circle">☀️</div>
+            </div>
+            <button id="install-button" onclick="installApp()" title="Instalar aplicativo">
+                ⬇️ Instalar
+            </button>
+        </div>
+        
         <header>
             <h1>🍔 Cabral & Izaura 🍇</h1>
-            <p>Lanches & Açaí — Desde 1998</p>
             <p style="font-style: italic; margin-top: 10px;">"Fiel é Deus"</p>
         </header>
         
-        <div class="status" id="status">Aberto Agora</div>
+        <div class="categories-section">
+            <div class="categories-title">Categorias</div>
+            <div class="categories" id="categories"></div>
+        </div>
         
-        <div class="categories" id="categories"></div>
-        
-        <div class="products" id="products"></div>
+        <div class="products-section">
+            <div class="products-title" id="productsTitle">Lanches</div>
+            <div class="products" id="products"></div>
+        </div>
     </div>
     
     <!-- Modal de Produto -->
@@ -151,16 +528,73 @@
         <p style="margin-top: 15px;">© 2026 Cabral & Izaura. Todos os direitos reservados.</p>
     </footer>
     
+    <!-- Audio de Boas-vindas (oculto) -->
+    <audio id="welcomeAudio" style="display: none;"></audio>
+    
     <script>
-        const CACHE_ID = 'cabral-v8-' + Date.now();
+        const CACHE_ID = 'cabral-v9-' + Date.now();
         const WHATSAPP = '5521991238516';
         let cart = [];
         let currentProduct = null;
         let products = [];
+        let deferredPrompt = null;
+        let welcomeAudioPlayed = false;
         
         // Registrar Service Worker
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js?v=8').catch(err => console.log('SW error:', err));
+            navigator.serviceWorker.register('sw.js?v=9').catch(err => console.log('SW error:', err));
+        }
+        
+        // PWA Install
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('install-button').classList.add('show');
+        });
+        
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('App instalado');
+                    }
+                    deferredPrompt = null;
+                    document.getElementById('install-button').classList.remove('show');
+                });
+            }
+        }
+        
+        // Tema Claro/Escuro
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+            }
+        }
+        
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        }
+        
+        // Áudio de Boas-vindas
+        function playWelcomeAudio() {
+            if (welcomeAudioPlayed) return;
+            
+            const audio = document.getElementById('welcomeAudio');
+            audio.src = 'https://voca.ro/1ar5AnKo0qus';
+            audio.volume = 0.35;
+            audio.play().then(() => {
+                welcomeAudioPlayed = true;
+                localStorage.setItem('welcomeAudioPlayed', 'true');
+            }).catch(err => console.log('Erro ao reproduzir áudio:', err));
+        }
+        
+        // Verificar se áudio já foi reproduzido
+        function checkWelcomeAudio() {
+            welcomeAudioPlayed = localStorage.getItem('welcomeAudioPlayed') === 'true';
         }
         
         // Carregar produtos
@@ -177,7 +611,7 @@
         
         // Renderizar categorias
         function renderCategories() {
-            const categories = ['lanches', 'acai', 'porcoes', 'bebidas'];
+            const categories = ['lanches', 'acai', 'palha-italiana', 'porcoes', 'bebidas'];
             const container = document.getElementById('categories');
             container.innerHTML = categories.map(cat => 
                 `<button class="category-btn ${cat === 'lanches' ? 'active' : ''}" onclick="renderProducts('${cat}')">${getCategoryIcon(cat)} ${getCategoryName(cat)}</button>`
@@ -185,12 +619,24 @@
         }
         
         function getCategoryIcon(cat) {
-            const icons = { lanches: '🍔', acai: '🍇', porcoes: '🍟', bebidas: '🥤' };
+            const icons = {
+                lanches: '🍔',
+                acai: '🍇',
+                'palha-italiana': '🍰',
+                porcoes: '🍟',
+                bebidas: '🥤'
+            };
             return icons[cat] || '📦';
         }
         
         function getCategoryName(cat) {
-            const names = { lanches: 'Lanches', acai: 'Açaí', porcoes: 'Porções', bebidas: 'Bebidas' };
+            const names = {
+                lanches: 'Lanches',
+                acai: 'Açaí',
+                'palha-italiana': 'Palha Italiana',
+                porcoes: 'Porções',
+                bebidas: 'Bebidas'
+            };
             return names[cat] || cat;
         }
         
@@ -199,11 +645,13 @@
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             
+            document.getElementById('productsTitle').textContent = getCategoryName(category);
+            
             const filtered = products.filter(p => p.categoria === category);
             const container = document.getElementById('products');
             container.innerHTML = filtered.map(p => `
                 <div class="product" onclick="openModal(${p.id})">
-                    <img src="${p.imagem}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 150%22%3E%3Crect fill=%22%23ddd%22 width=%22200%22 height=%22150%22/%3E%3C/svg%3E'">
+                    <img src="${p.imagem}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 150%22%3E%3Crect fill=%22%23ddd%22 width=%22200%22 height=%22150%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2220%22 text-anchor=%22middle%22 dy=%22.3em%22%3E${getCategoryIcon(category)}%3C/text%3E%3C/svg%3E'">
                     <div class="product-info">
                         <div class="product-name">${p.nome}</div>
                         <div class="product-desc">${p.descricao}</div>
@@ -285,19 +733,17 @@
                     <div class="cart-item-info">
                         <div class="cart-item-name">${item.nome}</div>
                         <div class="cart-item-price">R$ ${(item.preco + item.adicionalPrice).toFixed(2)}</div>
-                        ${item.adicionais.length > 0 ? `<small style="color: #666;">${item.adicionais.join(', ')}</small>` : ''}
+                        ${item.adicionais.length > 0 ? `<small style="color: #999;">${item.adicionais.join(', ')}</small>` : ''}
                         <div class="cart-item-qty">
-                            <button onclick="cart[${idx}].qty--; updateCart();" style="width: 24px; height: 24px; border: none; border-radius: 4px; cursor: pointer;">−</button>
+                            <button onclick="cart[${idx}].qty--; if(cart[${idx}].qty <= 0) cart.splice(${idx}, 1); updateCart();" style="width: 24px; height: 24px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; background: white;">−</button>
                             <span>${item.qty}</span>
-                            <button onclick="cart[${idx}].qty++; updateCart();" style="width: 24px; height: 24px; border: none; border-radius: 4px; cursor: pointer;">+</button>
-                            <button onclick="cart.splice(${idx}, 1); updateCart();" style="margin-left: auto; background: #f44336; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">Remover</button>
+                            <button onclick="cart[${idx}].qty++; updateCart();" style="width: 24px; height: 24px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; background: white;">+</button>
                         </div>
                     </div>
                 </div>
             `).join('');
         }
         
-        // Abrir/Fechar carrinho
         function openCart() {
             document.getElementById('cartDrawer').classList.add('active');
         }
@@ -309,43 +755,36 @@
         // Checkout
         function checkout() {
             if (cart.length === 0) {
-                alert('Carrinho vazio!');
+                alert('Seu carrinho está vazio!');
                 return;
             }
             
-            let msg = '🛒 *Pedido Cabral & Izaura*\n\n';
+            let message = '🛒 *Pedido Cabral & Izaura*\n\n';
             let total = 0;
             
             cart.forEach(item => {
                 const itemTotal = (item.preco + item.adicionalPrice) * item.qty;
                 total += itemTotal;
-                msg += `${item.nome} (${item.qty}x) - R$ ${itemTotal.toFixed(2)}\n`;
+                message += `${item.nome} x${item.qty} - R$ ${itemTotal.toFixed(2)}\n`;
                 if (item.adicionais.length > 0) {
-                    msg += `  Adicionais: ${item.adicionais.join(', ')}\n`;
+                    message += `  Adicionais: ${item.adicionais.join(', ')}\n`;
                 }
             });
             
-            msg += `\n*Total: R$ ${total.toFixed(2)}*`;
+            message += `\n*Total: R$ ${total.toFixed(2)}*`;
             
-            const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
-            window.open(url, '_blank');
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/${WHATSAPP}?text=${encodedMessage}`, '_blank');
         }
         
         // Inicializar
-        loadProducts();
-        
-        // Botão flutuante do carrinho
         document.addEventListener('DOMContentLoaded', () => {
-            const cartBtn = document.createElement('button');
-            cartBtn.innerHTML = '🛒 <span id="cartCount">0</span>';
-            cartBtn.style.cssText = 'position: fixed; bottom: 20px; right: 20px; padding: 15px 20px; background: #da291c; color: white; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.3);';
-            cartBtn.onclick = openCart;
-            document.body.appendChild(cartBtn);
+            initTheme();
+            checkWelcomeAudio();
+            loadProducts();
             
-            // Atualizar contador
-            setInterval(() => {
-                document.getElementById('cartCount').textContent = cart.length;
-            }, 100);
+            // Reproduzir áudio após primeiro clique
+            document.addEventListener('click', playWelcomeAudio, { once: true });
         });
     </script>
 </body>
